@@ -18,7 +18,7 @@ const RecipesFormat = ({id,name,ingredients,instructions,imageUrls,cookingTime,u
                     </div>
 
                     <p class="card-text">{instructions}</p>
-                    <p class="card-text"> Cooking Time : {cookingTime} min </p>                  
+                    <p class="card-text"> Cooking Time : {cookingTime} mins </p>                  
                     
                     {
                         isSaved?
