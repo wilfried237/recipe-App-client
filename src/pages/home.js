@@ -1,17 +1,27 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import RecipesFormat from "../components/Recipes";
-import { Cookies, useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
+import { useQuery } from "@tanstack/react-query";
+
+const fetchData = async()=>{
+    try{
+       const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes`);
+       return response.data
+    }catch(err){
+        console.error(err);
+    }
+}
 
 export default function Home(){
-    const [cookies, setCookies] = useCookies();
+    const [cookies] = useCookies();
     const [userSavedRecipe, setUserSavedRecipe] = useState([]);
-    const [recipes , setRecipes ] = useState([]);
  
+    const {data,isError,isLoading} = useQuery(['recipes'],fetchData)
     
     const handleSavedRecipes = async (id)=>{
         try{
-            const response = await axios.put(`${process.env.REACT_APP_API_PATH}/savedRecipe`,{userID:cookies.access_ID,recipeID:id});
+            await axios.put(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe`,{userID:cookies.access_ID,recipeID:id});
             setUserSavedRecipe([...userSavedRecipe,id]);
         }
         catch(err){
@@ -19,14 +29,14 @@ export default function Home(){
         }
     }
 
-    const fetchData = async()=>{
-        try{
-           const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes`);
-           setRecipes(response.data);
-        }catch(err){
-            console.error(err);
-        }
+    if(isError){
+        return <div> error {isError} </div>
     }
+
+    if(isLoading){
+        return <div> data is loading </div>
+    }
+
     const fetchUserSavedRecipe = async ()=>{
         try{
             const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe/${cookies.access_ID}`);
@@ -37,14 +47,10 @@ export default function Home(){
         }
     }
 
-    useEffect(()=>{
-        fetchData();
-        fetchUserSavedRecipe();
-    },[]);
-
+    fetchUserSavedRecipe();
     return (
         <div class="d-flex flex-column align-middle justify-content-center align-items-center">
-            {recipes?.map((element,idx)=>{
+            {data?.map((element,idx)=>{
                 return(
                     <div class="mt-4">
                         <RecipesFormat 
@@ -62,15 +68,6 @@ export default function Home(){
                     </div>
                 )
             })}
-            {/* {userSavedRecipe?.map((element,idx)=>{
-                return(
-                    // 
-                    <div class="mt-4">
-                        <p>{element}</p>
-                        <p>{userSavedRecipe.includes('6508495b098cec40823c8150') ? "Yes":"No"}</p>
-                    </div>
-                )
-            })} */}
         </div>
     );
 }

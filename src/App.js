@@ -5,19 +5,23 @@ import Home from "./pages/home";
 import CreateRecipe from "./pages/createRecipe";
 import SaveRecipe from "./pages/savedRecipe";
 import Navbar from "./components/Navbar";
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 export default function App(){
+    const queryClient = new QueryClient();
     return(
         <div>
-            <Router>
-                <Navbar/>
-                <Routes>
-                    <Route path="/auth" element={<AuthPage/>} />
-                    <Route path="/" element={<Home/>} />
-                    <Route path="/create-recipe" element={<CreateRecipe/>} />
-                    <Route path="/saved-recipes" element={<SaveRecipe/>} />
-                </Routes>
-            </Router>
+            <QueryClientProvider client={queryClient}>
+                <Router>
+                    <Navbar/>
+                    <Routes>
+                        <Route path="/auth" element={<AuthPage/>} />
+                        <Route path="/" element={<Home/>} />
+                        <Route path="/create-recipe" element={<CreateRecipe/>} />
+                        <Route path="/saved-recipes" element={<SaveRecipe/>} />
+                    </Routes>
+                </Router>
+            </QueryClientProvider>
         </div>
     );
 }
