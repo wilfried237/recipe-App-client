@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import RecipesFormat from "../components/Recipes";
 import { useCookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
-const fetchData = async(token)=>{
+const fetchData = async()=>{
     try{
        const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes`);
        return response.data
@@ -16,13 +17,18 @@ const fetchData = async(token)=>{
 export default function Home(){
     const [cookies] = useCookies();
     const [userSavedRecipe, setUserSavedRecipe] = useState([]);
- 
+    const navigate = useNavigate();
     const {data,isError,isLoading} = useQuery(['recipes'],fetchData)
     
     const handleSavedRecipes = async (id)=>{
         try{
-            await axios.put(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe`,{userID:cookies.access_ID,recipeID:id},{headers:{Authorization: cookies.access_token}});
-            setUserSavedRecipe([...userSavedRecipe,id]);
+            if(cookies.access_token){
+                await axios.put(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe`,{userID:cookies.access_ID,recipeID:id},{headers:{Authorization: cookies.access_token}});
+                setUserSavedRecipe([...userSavedRecipe,id]);
+            }else{
+                 alert("you need to sigIn or signUp");
+                 navigate('/auth');
+            }
         }
         catch(err){
             console.error(err)
@@ -39,9 +45,10 @@ export default function Home(){
 
     const fetchUserSavedRecipe = async ()=>{
         try{
-            const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe/${cookies.access_ID}`);
-            setUserSavedRecipe(response.data);
-            // console.log(response.data);
+            if(cookies.access_token){
+                const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe/${cookies.access_ID}`,{headers:{Authorization: cookies.access_token}});
+                setUserSavedRecipe(response.data);
+            }
         }catch(err){
             console.error(err);
         }

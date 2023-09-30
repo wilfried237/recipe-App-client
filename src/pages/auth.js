@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import axios from 'axios'
 import {useCookies} from 'react-cookie'
 import { useNavigate } from "react-router-dom";
+import {useForm} from 'react-hook-form';
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import * as yup from 'yup';
 
 export default function AuthPage (){
     return (
@@ -62,18 +66,28 @@ function Login(){
 
 function Registration(){
 
-    const [username, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const schema = yup.object().shape({
+        username :  yup.string().required().max(11).min(5),
+        email:      yup.string().email().required(),
+        password:   yup.string().max(32).min(8).required(),
+        });
 
-    const OnSubmit = async (event)=>{
-        event.preventDefault();
+    const {register, handleSubmit, formState: {errors}, reset} = useForm({
+        resolver: yupResolver(schema),
+    });
+
+
+
+    const OnSubmit = async (data)=>{
+
         try{
-            const response = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/register`, {username, password});
+            const response = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/register`, data);
             if(response.data.flag === false){
                 alert(response.data.message);
             }
             else{
                 alert(response.data.message);
+                reset();
             }
         }
         catch(err){
@@ -82,17 +96,24 @@ function Registration(){
     }
 
     return(
-<form onSubmit={OnSubmit} style={{width:'100%', alignItems:'center', justifyContent: 'center', display:'grid'}}>
+<form onSubmit={ handleSubmit(OnSubmit)} style={{width:'100%', alignItems:'center', justifyContent: 'center', display:'grid'}}>
         <div class="mb-3">
             <h1>Registration Page</h1>
-            <label for="UserName" class="form-label">UserName</label>
-            <input onChange={(e)=>{setUserName(e.target.value)}} type="text" class="form-control" id="UserName" aria-describedby="emailHelp" />
+            <label  for="UserName" className="form-label">UserName</label>
+            <input {...register("username")}  type="text" className="form-control" id="UserName" required/>
+            <p> { errors.username?.message }</p>
+        </div>
+        <div className="mb-3">
+            <label for="Email" className="form-label"> Email</label>
+            <input {...register("email")} type="text" className="form-control" id="Email" required/>
+            <p> { errors.email?.message} </p>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input onChange={(e)=>{setPassword(e.target.value)}} type="password" class="form-control" id="exampleInputPassword1" />
+            <label for="Password" className="form-label">Password</label>
+            <input {...register("password")} type="password" className="form-control" id="Password" required/>
+            <p> { errors.password?.message } </p>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" className="btn btn-primary">Submit</button>
 </form>  
     )
 }
