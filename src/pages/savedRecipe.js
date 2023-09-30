@@ -10,7 +10,7 @@ export default function SaveRecipe(){
 
     const deleteSavedRecipe = async (id)=>{
         try{
-            const userRecipeSaved = await axios.put(`${process.env.REACT_APP_API_PATH}/recipes/deleteRecipe`, {id,UserID});
+            const userRecipeSaved = await axios.put(`${process.env.REACT_APP_API_PATH}/recipes/deleteRecipe`, {id,UserID}, {headers:{Authorization: cookies.access_token}});
             const respond = saveRecipe.filter((element) => element._id!=id );
             setSavedRecipe(respond);
         }
@@ -22,7 +22,7 @@ export default function SaveRecipe(){
 
     const getUserSavedRecipe = async() =>{
         try{ 
-            const userRecipeSaved = await axios.post(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipes`, {userID:UserID});
+            const userRecipeSaved = await axios.post(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipes`, {userID:UserID},{headers:{Authorization: cookies.access_token}});
             
             setSavedRecipe(userRecipeSaved.data); 
         }

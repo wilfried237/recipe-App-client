@@ -26,11 +26,18 @@ function Login(){
         event.preventDefault();
         try{
           const userRespond = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/login`,{username:userName, password:password});
-          setToken(userRespond.data.token);
-          window.localStorage.setItem('User', userRespond.data.userID)
-          setCookies("access_token", userRespond.data.token)
-          setCookies("access_ID",userRespond.data.userID)
-          navigate("/");
+          if(userRespond.data.flag === false){
+            alert(userRespond.data.message);
+          }
+          else{
+            alert(userRespond.data.message);
+            setToken(userRespond.data.token);
+            window.localStorage.setItem('User', userRespond.data.userID)
+            setCookies("access_token", userRespond.data.token)
+            setCookies("access_ID",userRespond.data.userID)
+            navigate("/");
+          }
+
         }
         catch(err){
             console.error(err);
@@ -61,8 +68,13 @@ function Registration(){
     const OnSubmit = async (event)=>{
         event.preventDefault();
         try{
-            axios.post(`${process.env.REACT_APP_API_PATH}/auth/register`, {username, password});
-            alert('Registration Completed');
+            const response = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/register`, {username, password});
+            if(response.data.flag === false){
+                alert(response.data.message);
+            }
+            else{
+                alert(response.data.message);
+            }
         }
         catch(err){
             console.error(err)

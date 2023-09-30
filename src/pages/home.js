@@ -4,7 +4,7 @@ import RecipesFormat from "../components/Recipes";
 import { useCookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
 
-const fetchData = async()=>{
+const fetchData = async(token)=>{
     try{
        const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes`);
        return response.data
@@ -21,7 +21,7 @@ export default function Home(){
     
     const handleSavedRecipes = async (id)=>{
         try{
-            await axios.put(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe`,{userID:cookies.access_ID,recipeID:id});
+            await axios.put(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe`,{userID:cookies.access_ID,recipeID:id},{headers:{Authorization: cookies.access_token}});
             setUserSavedRecipe([...userSavedRecipe,id]);
         }
         catch(err){

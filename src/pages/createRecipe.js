@@ -9,7 +9,7 @@ export default function CreateRecipe(){
  const onSubmit= async (event) =>{
         event.preventDefault();
         try{
-            axios.post(`${process.env.REACT_APP_API_PATH}/recipes`, recipes);
+            axios.post(`${process.env.REACT_APP_API_PATH}/recipes`, recipes, {headers:{Authorization: cookies.access_token}});
             alert("Recipe created successfully");
         }
         catch(err){
