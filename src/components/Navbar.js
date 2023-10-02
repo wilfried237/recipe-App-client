@@ -21,9 +21,9 @@ export default function Navbar(){
                 <header className="row" style={{width:'100%'}}>
                 <Link className="navbar-brand me-0 col-auto" to='/'>FlushRecipeApp</Link>
                   {/* <img className="img-fluid" src={logo}/> */}
-                {/* <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
-                </button> */}
+                </button>
                   <div class="collapse navbar-collapse justify-content-center col-8 width-100%" id="navbarNavAltMarkup">
 
                       <div class="navbar-nav">
