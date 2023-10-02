@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import CreateRecipe from "./pages/createRecipe";
 import SaveRecipe from "./pages/savedRecipe";
 import Navbar from "./components/Navbar";
+import ResetPassword from "./pages/resetpassword";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 export default function App(){
@@ -19,6 +20,7 @@ export default function App(){
                         <Route path="/" element={<Home/>} />
                         <Route path="/create-recipe" element={<CreateRecipe/>} />
                         <Route path="/saved-recipes" element={<SaveRecipe/>} />
+                        <Route path="/reset-password" element={<ResetPassword/>} />
                     </Routes>
                 </Router>
             </QueryClientProvider>
