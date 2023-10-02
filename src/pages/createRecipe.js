@@ -29,7 +29,7 @@ export default function CreateRecipe(){
     function handleChangeIngredients(event, index){
         const {value} = event.target;
         const ingredients = recipes.ingredients;
-        ingredients[index] = value
+        ingredients[index] = value;
         setRecipes({...recipes, ingredients: ingredients});
     }
 
@@ -39,12 +39,7 @@ export default function CreateRecipe(){
     }
 
     function deleteIngredients(index){
-        const ingredients = recipes.ingredients;
-        const validIngredients = ingredients.filter((element,idx)=>{
-            if(index!=idx){
-                return element;
-            }
-        });
+        const validIngredients = recipes.ingredients.filter((element,idx)=> index!==idx);
         setRecipes({...recipes, ingredients: validIngredients});
     }
 
