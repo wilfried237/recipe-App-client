@@ -4,7 +4,7 @@ import AuthPage from "./pages/auth";
 import Home from "./pages/home";
 import CreateRecipe from "./pages/createRecipe";
 import SaveRecipe from "./pages/savedRecipe";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import ResetPassword from "./pages/resetpassword";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 

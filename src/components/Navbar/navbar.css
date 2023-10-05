@@ -1,0 +1,67 @@
+nav{
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: #F9F9F9;
+}
+
+.navbar-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+.navbar-brand{
+    text-decoration: none;
+    color: black;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+
+.navbar-container-middle ul{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.navbar-container-middle ul li a{
+    text-decoration: none;
+    text-transform: uppercase;
+    color: black;
+    font-family: poppins;
+}
+.navbar-container-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.login-btn{
+    border: 1px solid black;
+    padding: 5px 20px;
+    color: black;
+    background-color: white;
+    border-radius: 10%;
+    transition: ease-in-out 0.5s;
+}
+.login-btn:hover{
+    background-color: black;
+    color: white;
+}
+.burger{
+    display: none;
+}
+@media screen and (max-width: 768px) {
+    .burger{
+        display: block;
+    }
+    .navbar-container-middle{
+        display: none;
+    }
+}
