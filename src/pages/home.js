@@ -4,6 +4,9 @@ import RecipesFormat from "../components/Recipes";
 import { useCookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import useLoader from "../hooks/use-loadrecipe";
+// import './../index.css'
+import laoder from './lZDZM301.svg'
 
 const fetchData = async()=>{
     try{
@@ -16,9 +19,10 @@ const fetchData = async()=>{
 
 export default function Home(){
     const [cookies] = useCookies();
+    const { data, isLoading, error } = useLoader(`${process.env.REACT_APP_API_PATH}/recipes`);
     const [userSavedRecipe, setUserSavedRecipe] = useState([]);
     const navigate = useNavigate();
-    const {data,isError,isLoading} = useQuery(['recipes'],fetchData)
+    // const {data,isError,isLoading} = useQuery(['recipes'],fetchData)
     
     const handleSavedRecipes = async (id)=>{
         try{
@@ -35,12 +39,20 @@ export default function Home(){
         }
     }
 
-    if(isError){
-        return <div> error {isError} </div>
+    if(error){
+        return <div> error {error} </div>
     }
 
     if(isLoading){
-        return <div> data is loading </div>
+        return( 
+            <div>
+            {/* // <div class="x-reset-container"> */}
+            {/* //  <div class="c-leaf"> */}
+                 <img src='logoFlush.png' className="image-center"/>
+                 {/* <div class="c-leaf__fill"></div> */}
+            {/* // </div>  */}
+        </div>
+        )
     }
 
     const fetchUserSavedRecipe = async ()=>{

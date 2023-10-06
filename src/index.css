@@ -11,3 +11,62 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.c-leaf {
+  position: relative;
+  overflow: hidden;
+  width: 203px;
+  height: 133px;
+  margin: 0 auto;
+  background: #eee;
+  transform: scale(1);
+}
+
+.c-leaf__icon {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  z-index: 1;
+  width: 205px;
+  height: 135px;
+  fill: #fff;
+}
+
+.c-leaf__fill {
+  width: 205px;
+  height: 135px;
+  background: #7fbc5b;
+  -webkit-animation: fillUp 1.5s ease-in-out infinite;
+          animation: fillUp 1.5s ease-in-out infinite;
+}
+
+@-webkit-keyframes fillUp {
+  0% {
+    transform: translate(0, 135px);
+  }
+  100% {
+    transform: translate(0, -135px);
+  }
+}
+
+@keyframes fillUp {
+  0% {
+    transform: translate(0, 135px);
+  }
+  100% {
+    transform: translate(0, -135px);
+  }
+}
+
+.image-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+.x-reset-container {
+  display: flex;
+  align-items: center;
+  padding: 50px;
+}

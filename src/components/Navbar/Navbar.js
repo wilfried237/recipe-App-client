@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import logo from '../../logoFlush.png'
+// import logo from '../../logoFlush.png'
 import './navbar.css'
 
 export default function Navbar(){
@@ -82,6 +82,7 @@ export default function Navbar(){
                           <button className="btn btn-danger" onClick={logOut}>Logout</button>
                        </>
                          }
+                         
                   </ul>
                 </div>
                 <div className="navbar-container-left">
