@@ -5,8 +5,6 @@ import { useCookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import useLoader from "../hooks/use-loadrecipe";
-// import './../index.css'
-import laoder from './lZDZM301.svg'
 
 const fetchData = async()=>{
     try{
@@ -31,7 +29,7 @@ export default function Home(){
                 setUserSavedRecipe([...userSavedRecipe,id]);
             }else{
                  alert("you need to sigIn or signUp");
-                 navigate('/auth');
+                 navigate('/Login');
             }
         }
         catch(err){

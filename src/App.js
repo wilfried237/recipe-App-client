@@ -6,6 +6,9 @@ import CreateRecipe from "./pages/createRecipe";
 import SaveRecipe from "./pages/savedRecipe";
 import Navbar from "./components/Navbar/Navbar";
 import ResetPassword from "./pages/resetpassword";
+import Registration from "./pages/registration";
+import LoginPage from "./pages/login";
+
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 export default function App(){
@@ -18,9 +21,11 @@ export default function App(){
                     <Routes>
                         <Route path="/auth" element={<AuthPage/>} />
                         <Route path="/" element={<Home/>} />
+                        <Route path="/register" element={<Registration/>} />
                         <Route path="/create-recipe" element={<CreateRecipe/>} />
                         <Route path="/saved-recipes" element={<SaveRecipe/>} />
                         <Route path="/reset-password" element={<ResetPassword/>} />
+                        <Route path="/Login" element={<LoginPage/>}/>
                     </Routes>
                 </Router>
             </QueryClientProvider>

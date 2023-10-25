@@ -31,22 +31,24 @@ const ResetPassword = ()=>{
     }
 
     return(
-        <form onSubmit={handleSubmit(submit)} className="container mt-5">
-            <div>
-                <h1 className="text-center">Reset Password </h1>
-                <div className="mb-3">
-                    <label for="user" className="form-label">User</label>
-                    <input {...register("username")} type="text" className="form-control" id="user" required/>
+        <div class="d-flex justify-content-center align-items-center" style={{height: "100vh"}}>
+            <form onSubmit={handleSubmit(submit)} style={{boxShadow:"0 2px 4px rgba(0,0,0,0.2)", borderRadius: "2%"}} className="d-flex flex-column justify-content-center align-items-center my-auto p-5 ">
+                <p className="text-center mb-5 fs-2">Reset Account Password </p>
+                <p className="text-center text-muted mb-5"> Enter a new password for lorem</p>
+
+                <div className="mw-100 justify-content-center align-items-center">
+                    <input className="form-control" {...register("username")} type="text" placeholder="UserName" required/>
                     <p> { errors.username?.message } </p>
                 </div>
-                <div className="mb-3">
-                    <label for="newPassword" className="form-label">Password</label>
-                    <input {...register("password")} type="password" className="form-control" id="newPassword" required/>
+
+                <div className="mw-100 center" >
+                    <input className="form-control" {...register("password")} type="password" placeholder="Password" required/>
                     <p> { errors.password?.message } </p>
                 </div>
-            </div>
-            <button className="btn btn-primary" type="submit" > Reset </button>
-        </form>
+                <button className="btn btn-warning text-white" type="submit" > Reset </button>
+            </form>
+        </div>
+
 
     );
 }
