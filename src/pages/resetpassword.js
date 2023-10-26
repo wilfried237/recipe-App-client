@@ -26,7 +26,7 @@ const ResetPassword = ()=>{
        else{
         alert(response.data.message);
         reset();
-        navigate('/auth');
+        navigate('/Login');
        }
     }
 

@@ -37,8 +37,8 @@ export default function Registration(){
 
     return(
         <div className="d-flex justify-content-center align-items-center " style={{position: "fixed", top:"0",left: "0",width: "100%",height: "100vh",backdropFilter:" blur(10px)"}}>
-            <form onSubmit={ handleSubmit(OnSubmit)} className='position-relative px-5 pt-3'>
-                    <svg onClick={()=>{navigate("/")}} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x-lg position-absolute top-0 end-0" viewBox="0 0 16 16">
+            <form onSubmit={ handleSubmit(OnSubmit)} style={{}} className='glass position-relative p-5'>
+                    <svg onClick={()=>{navigate("/")}} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="cross_icon bi bi-x-lg position-absolute top-0 end-0" viewBox="0 0 16 16">
                         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                     </svg>
                     <p className='fs-1'>Registration Page</p>
