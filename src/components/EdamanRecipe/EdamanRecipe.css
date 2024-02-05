@@ -1,0 +1,154 @@
+/* .container{
+    padding: 20px;
+} */
+
+.recipe {
+    text-align: left;
+    text-decoration: none;
+}
+
+.recipe h5{
+    color: black;
+    transition: ease-in 0.2s;
+    font-weight: 600;
+}
+
+.recipe:hover img{
+    transform: scale(1.1);
+}
+
+.rounded-recipe{
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.rounded-recipe h5{
+    margin-top: 1rem;
+    color: black;
+}
+
+.rounded-recipe:hover h5 {
+    color: rgb(255,100,47);
+}
+
+.rounded-recipe-image{
+    overflow: hidden;
+    border-radius: 50%;
+    width: fit-content;
+}
+
+.rounded-recipe-image:hover img{
+    transform: scale(1.1);
+}
+.rounded-recipe .rounded-recipe-image img{
+    width: 175px;
+    height:175px;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: 0.5s ease-in-out;
+    border-radius: 50%;
+    
+}
+.recipe .recipe-image img {
+    width: 100%;
+    height:auto;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    aspect-ratio: 4 / 3;
+    transition: 0.5s ease-in-out;
+    
+}
+
+.recipe-image{
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.recipe-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+    gap: 30px;
+    margin: 20px 0px;
+    justify-content: center;
+    align-items: center;
+}
+
+.recipe:hover h5{
+    color: rgb(255,100,47);
+}
+
+.row-circle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    row-gap: 1rem;
+    margin-top: 2rem;
+}
+.Popular-categories{
+    margin-bottom: 2.5rem;
+}
+.Join-us{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    background-color: rgb(255,216,202);
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.Delice{
+    font-size: 70px;
+    max-width: 400px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    line-height: 74px;
+    text-align: center;
+}
+
+.join-input{
+    border: none;
+    width: 450px;
+    padding: 20px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.Join-us input:focus{
+    outline: none;
+}
+.Enjoy{
+    font-size: larger;
+    max-width: 400px;
+    text-align: center;
+}
+.joining{
+    text-align: center;
+    font-size: small;
+    margin-top: 1rem;
+}
+.joining u{
+    text-decoration-color: rgb(255,100,47);
+    text-underline-offset: 3px;
+}
+.join-btn{
+    border: none;
+    background-color: rgb(255,100,47);
+    color: white;
+    padding: 20px 40px 20px 40px;
+    font-weight: 600;
+    transition: opacity ease 0.5s;
+    border-top-right-radius: 5%;
+    border-bottom-right-radius: 5%;
+}
+.join-btn:hover{
+    opacity: 0.8;
+}

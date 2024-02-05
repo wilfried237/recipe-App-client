@@ -20,7 +20,7 @@ const useLoader = (url) => {
     };
 
     fetchData();
-  }, [url]);
+  },[url]);
 
   return { data, isLoading, error };
 };

@@ -1,0 +1,70 @@
+.footer{
+    background-color: rgb(249,249,249);
+    padding-bottom: 1rem;
+}
+.statement{
+    font-size: larger;
+    color: rgb(128,128,128);
+    max-width: 500px;
+}
+
+.footer-brand{
+    text-decoration: none;
+    color: black;
+    font-size: xx-large;
+    font-family: 'Dancing Script', cursive;
+    font-weight: bolder;
+}
+.footer-subBody{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 45px;
+    padding-bottom: 45px;
+}
+.section-information{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+.footer-stack{
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+}
+.footer-stack a{
+    text-decoration: none;
+}
+.footer-subLinks{
+    color: rgb(128,128,128);
+    font-size: large;
+    transition: color ease-in 0.35s;
+}
+.footer-subLinks:hover{
+    color:rgb(255,100,47);
+}
+.footer-Links{
+    color: black;
+    font-weight: 500;
+    font-size: large;
+    font-family:'poppins';
+}
+
+.footer-rights-logo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-rights-logo p{
+    color: rgb(128,128,128);
+}
+
+.footer-icons{
+    display: flex;
+    column-gap: 2rem;
+    align-items: center;
+}

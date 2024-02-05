@@ -1,0 +1,45 @@
+.nutrition-item {
+    transform: translateY(20px);
+    transition: transform 0.5s ease-in-out;
+    opacity: 0;
+    animation: slideIn 1s ease-in-out forwards;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+.nutrition-item.show p{
+    margin:0px;
+}
+
+.recipe-form-brief-info p{
+    margin: 0px;
+}
+.barred-text {
+    position: relative;
+  }
+  
+  .barred-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    border-top: 1px solid black; /* Change the color and style as needed */
+  }
+.img-side{
+  max-width: 150px;
+  max-height: 150px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+  

@@ -1,90 +1,93 @@
 import axios from "axios";
 import React, { useState } from "react";
-import RecipesFormat from "../components/Recipes";
+import RecipesFormat from "../components/Recipes/Recipes";
 import { useCookies } from "react-cookie";
-import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/footer/Footer";
 import useLoader from "../hooks/use-loadrecipe";
-
-const fetchData = async()=>{
-    try{
-       const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes`);
-       return response.data
-    }catch(err){
-        console.error(err);
-    }
-}
+import {RecipeRoundedTemplate, RecipeTemplateEdaman} from "../components/EdamanRecipe/EdamanRecipe";
+import "../components/EdamanRecipe/EdamanRecipe.css";
 
 export default function Home(){
     const [cookies] = useCookies();
-    const { data, isLoading, error } = useLoader(`${process.env.REACT_APP_API_PATH}/recipes`);
+    // const { data, isLoading, error } = useLoader(`${process.env.REACT_APP_API_PATH}/recipes`);
     const [userSavedRecipe, setUserSavedRecipe] = useState([]);
     const navigate = useNavigate();
-    // const {data,isError,isLoading} = useQuery(['recipes'],fetchData)
+    // const {data,isLoading,error} = useEdamanApi("cake")
     
-    const handleSavedRecipes = async (id)=>{
-        try{
-            if(cookies.access_token){
-                await axios.put(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe`,{userID:cookies.access_ID,recipeID:id},{headers:{Authorization: cookies.access_token}});
-                setUserSavedRecipe([...userSavedRecipe,id]);
-            }else{
-                 alert("you need to sigIn or signUp");
-                 navigate('/Login');
-            }
-        }
-        catch(err){
-            console.error(err)
-        }
-    }
+    // const handleSavedRecipes = async (id)=>{
+    //     try{
+    //         if(cookies.access_token){
+    //             await axios.put(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe`,{userID:cookies.access_ID,recipeID:id},{headers:{Authorization: cookies.access_token}});
+    //             setUserSavedRecipe([...userSavedRecipe,id]);
+    //         }else{
+    //              alert("you need to sigIn or signUp");
+    //              navigate('/Login');
+    //         }
+    //     }
+    //     catch(err){
+    //         console.error(err)
+    //     }
+    // }
 
-    if(error){
-        return <div> error {error} </div>
-    }
+    // const fetchUserSavedRecipe = async ()=>{
+    //     try{
+    //         if(cookies.access_token){
+    //             const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe/${cookies.access_ID}`,{headers:{Authorization: cookies.access_token}});
+    //             setUserSavedRecipe(response.data);
+    //         }
+    //     }catch(err){
+    //         console.error(err);
+    //     }
+    // }
 
-    if(isLoading){
-        return( 
-            <div>
-            {/* // <div class="x-reset-container"> */}
-            {/* //  <div class="c-leaf"> */}
-                 <img src='logoFlush.png' className="image-center"/>
-                 {/* <div class="c-leaf__fill"></div> */}
-            {/* // </div>  */}
-        </div>
-        )
-    }
-
-    const fetchUserSavedRecipe = async ()=>{
-        try{
-            if(cookies.access_token){
-                const response = await axios.get(`${process.env.REACT_APP_API_PATH}/recipes/savedRecipe/${cookies.access_ID}`,{headers:{Authorization: cookies.access_token}});
-                setUserSavedRecipe(response.data);
-            }
-        }catch(err){
-            console.error(err);
-        }
-    }
-
-    fetchUserSavedRecipe();
+    // fetchUserSavedRecipe();
     return (
-        <div class="d-flex flex-column align-middle justify-content-center align-items-center">
-            {data?.map((element,idx)=>{
-                return(
-                    <div class="mt-4">
-                        <RecipesFormat 
-                            key={idx} 
-                            id={element._id}
-                            name={element.name} 
-                            ingredients={element.ingredients}  
-                            instructions={element.instruction}
-                            imageUrls={element.imageUrls}
-                            cookingTime={element.cookingTime}
-                            userOwner={element.userOwner}
-                            handleSavedRecipes={handleSavedRecipes}
-                            isSaved={userSavedRecipe.includes(element._id)}
-                        />
-                    </div>
-                )
-            })}
+        <div>
+            <section className="container">
+                <h1>Special Burger</h1>
+                <div className="recipe-grid">
+                    <RecipeTemplateEdaman search={"burger"} numberLimite={3}/>
+                </div>
+            </section>
+
+            <section className="container">
+                <h1>Super Delicious</h1>
+                <div className="recipe-grid">
+                    <RecipeTemplateEdaman search={"pizza"} numberLimite={3}/>
+                </div>
+            </section>
+
+            <section className="container">
+                <h1>Sweet Tooth</h1>
+                <div className="recipe-grid">
+                    <RecipeTemplateEdaman search={"milkshake"} numberLimite={3}/>
+                </div>
+            </section> 
+ 
+            
+              <section className="Popular-categories container ">
+                <h1>Popular Categories</h1> 
+                <div className="row-circle">
+                    <RecipeRoundedTemplate search={"Pasta"} numberLimite={1}/>
+                    <RecipeRoundedTemplate search={"Pizza"} numberLimite={1}/>
+                    <RecipeRoundedTemplate search={"Vegan"} numberLimite={1}/>
+                    <RecipeRoundedTemplate search={"Desserts"} numberLimite={1}/>
+                    <RecipeRoundedTemplate search={"Smoothies"} numberLimite={1}/>
+                    <RecipeRoundedTemplate search={"Breakfast"} numberLimite={1}/>
+                </div>
+             </section>
+
+            <section className="Join-us">
+                <p className="Delice">Deliciousness to your inbox</p>
+                <p className="Enjoy">Enjoy weekly hand picked recipes and recommendations</p>
+                <div>
+                    <input className="join-input" type="text" placeholder="Email Address"></input>
+                    <button className="join-btn">Join</button>
+                </div>
+                <p className="joining"> By joining our newsletter you agree to our <u>Terms and conditions</u></p>
+            </section>
+            <Footer/>
         </div>
     );
 }

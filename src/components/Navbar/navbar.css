@@ -1,9 +1,8 @@
 nav{
-    padding-left: 20%;
-    padding-right: 20%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    background-color: #F9F9F9;
+   /* max-width: 1064px; */
+   margin-inline: auto;
+   margin-top: 1rem;
+   
 }
 
 .navbar-container{
@@ -11,7 +10,6 @@ nav{
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    
 }
 
 .navbar-brand{
@@ -24,7 +22,7 @@ nav{
 
 .navbar-container-middle ul{
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     align-items: center;
     margin: 0;
     padding: 0;
@@ -35,6 +33,8 @@ nav{
     text-transform: uppercase;
     color: black;
     font-family: poppins;
+    font-size: large;
+    font-weight:400;
 }
 .navbar-container-left{
     display: flex;
@@ -57,6 +57,36 @@ nav{
 .burger{
     display: none;
 }
+.sidebar{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height ease-in;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px;
+}
+
+.sidebar a{
+    text-decoration: none;
+    color: black;
+    font-size: large;
+}
+.sidebar a:hover{
+    color: rgb(255,100,47);
+}
+
+.sidebar.open{
+    max-height: 1000px;
+    transition: max-height ease-in 1.5s;
+}
+.navbar-container-middle ul li a{
+    color: black;
+    transition: color ease-in 0.35s;
+}
+.navbar-container-middle ul li a:hover{
+    color: rgb(255,100,47);
+}
+
 @media screen and (max-width: 768px) {
     .burger{
         display: block;

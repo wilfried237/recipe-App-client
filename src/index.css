@@ -20,6 +20,9 @@ code {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+.cross_icon{
+  cursor: pointer;
+}
 
 .c-leaf {
   position: relative;
@@ -77,4 +80,13 @@ code {
   display: flex;
   align-items: center;
   padding: 50px;
+}
+
+.grid-template{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-inline: auto;
 }
