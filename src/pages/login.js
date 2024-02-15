@@ -64,6 +64,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
                     <div>
                         <p className="fs-1 fw-medium">LOGIN</p>
                         <TextField
+                            
                             id="exampleInput"
                             label="UserName"
                             {...register("username")}
@@ -78,6 +79,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
                         <TextField
                             id="exampleInputPassword"
                             label="Password"
+                            type="password"
                             {...register("password")}
                             fullWidth
                         />

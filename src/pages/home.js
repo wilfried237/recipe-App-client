@@ -78,12 +78,12 @@ export default function Home(){
                 </div>
              </section> */}
 
-            <section className="Join-us">
+            <section style={{backgroundColor:"rgb(255,216,202)"}} className="my-5 px-3 py-5 d-flex flex-column justify-content-center align-items-center">
                 <p className="Delice">Deliciousness to your inbox</p>
                 <p className="Enjoy">Enjoy weekly hand picked recipes and recommendations</p>
-                <div>
-                    <input className="join-input" type="text" placeholder="Email Address"></input>
-                    <button className="join-btn">Join</button>
+                <div className="col-12 d-flex justify-content-center align-items-center">
+                    <input  className="join-input col-sm-6" type="text" placeholder="Email Address"></input>
+                    <button className="join-btn ">Join</button>
                 </div>
                 <p className="joining"> By joining our newsletter you agree to our <u>Terms and conditions</u></p>
             </section>
