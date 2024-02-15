@@ -44,13 +44,13 @@ export default function Home(){
     // fetchUserSavedRecipe();
     return (
         <div>
-            <section className="container">
+            {/* <section className="container">
                 <h1>Special Burger</h1>
                 <div className="recipe-grid">
                     <RecipeTemplateEdaman search={"burger"} numberLimite={3}/>
                 </div>
             </section>
-{/* 
+
             <section className="container">
                 <h1>Super Delicious</h1>
                 <div className="recipe-grid">
@@ -66,17 +66,17 @@ export default function Home(){
             </section>  */}
  
             
-              {/* <section className="Popular-categories container ">
+              <section className="Popular-categories container ">
                 <h1>Popular Categories</h1> 
-                <div className="row-circle">
-                    <RecipeRoundedTemplate search={"Pasta"} numberLimite={1}/>
-                    <RecipeRoundedTemplate search={"Pizza"} numberLimite={1}/>
+                <div className="d-flex justify-content-center flex-row align-items-center gap-3 flex-wrap mt-2">
+                    <RecipeRoundedTemplate search={"Pasta"} numberLimite={6}/>
+                    {/* <RecipeRoundedTemplate search={"Pizza"} numberLimite={1}/>
                     <RecipeRoundedTemplate search={"Vegan"} numberLimite={1}/>
                     <RecipeRoundedTemplate search={"Desserts"} numberLimite={1}/>
                     <RecipeRoundedTemplate search={"Smoothies"} numberLimite={1}/>
-                    <RecipeRoundedTemplate search={"Breakfast"} numberLimite={1}/>
+                    <RecipeRoundedTemplate search={"Breakfast"} numberLimite={1}/> */}
                 </div>
-             </section> */}
+             </section>
 
             <section style={{backgroundColor:"rgb(255,216,202)"}} className="my-5 px-3 py-5 d-flex flex-column justify-content-center align-items-center">
                 <p className="Delice">Deliciousness to your inbox</p>

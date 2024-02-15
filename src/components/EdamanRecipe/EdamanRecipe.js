@@ -29,7 +29,7 @@ function RecipeRoundedTemplate ({search, numberLimite}){
             return(
                     <Link className="rounded-recipe" to='/categories'>
                         <div className="rounded-recipe-image">
-                            <img key={idx} alt={search} src={randomData.recipe.image}/>
+                            <img width={50} height={50} key={idx} alt={search} src={randomData.recipe.image}/>
                         </div>
                         <h5 className="rounded-recipe-text">{search}</h5>
                     </Link>

@@ -19,7 +19,6 @@
 
 .rounded-recipe{
     text-align: center;
-    width: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -40,15 +39,16 @@
 .rounded-recipe-image{
     overflow: hidden;
     border-radius: 50%;
-    width: fit-content;
 }
 
 .rounded-recipe-image:hover img{
     transform: scale(1.1);
 }
 .rounded-recipe .rounded-recipe-image img{
-    width: 175px;
-    height:175px;
+    max-width: 175px;
+    max-height:175px;
+    width: 100%;
+    height: auto;
     object-fit: cover;
     object-position: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -90,13 +90,6 @@
     color: rgb(255,100,47);
 }
 
-.row-circle{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    row-gap: 1rem;
-    margin-top: 2rem;
-}
 .Popular-categories{
     margin-bottom: 2.5rem;
 }
