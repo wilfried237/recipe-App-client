@@ -162,7 +162,7 @@ export default function Navbar() {
                       <div>
                         <button onClick={() => { handleOpenLoginBackDrope() }} className="login-btn">Login</button>
                         <Dialog
-                          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1, backdropFilter: " blur(10px)" }}
+                          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer   }}
                           open={backdropLogin}
                           onClose={() => { handleCloseLoginBackDrope() }}
                           keepMounted
