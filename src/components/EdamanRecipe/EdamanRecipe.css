@@ -67,6 +67,11 @@
     
 }
 
+.recipe-image-loading{
+    aspect-ratio: 4 / 3;
+    width: 100%;
+}
+
 .recipe-image{
     overflow: hidden;
     border-radius: 10px;

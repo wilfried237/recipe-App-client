@@ -215,7 +215,7 @@ function DropdownIngredients({ ingredient, index }) {
         
           {isToggled && 
             <AccordionDetails className="d-flex">
-                <img height="200" width={"200"} src={ingredient.image} alt={ingredient.text} />
+                <img className="rounded" height="200" width={"200"} src={ingredient.image} alt={ingredient.text} />
                 {/* <Stack
                 direction="row"
                 divider={<Divider orientation="vertical" flexItem/>}

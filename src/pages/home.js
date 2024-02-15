@@ -50,7 +50,7 @@ export default function Home(){
                     <RecipeTemplateEdaman search={"burger"} numberLimite={3}/>
                 </div>
             </section>
-
+{/* 
             <section className="container">
                 <h1>Super Delicious</h1>
                 <div className="recipe-grid">
@@ -63,10 +63,10 @@ export default function Home(){
                 <div className="recipe-grid">
                     <RecipeTemplateEdaman search={"milkshake"} numberLimite={3}/>
                 </div>
-            </section> 
+            </section>  */}
  
             
-              <section className="Popular-categories container ">
+              {/* <section className="Popular-categories container ">
                 <h1>Popular Categories</h1> 
                 <div className="row-circle">
                     <RecipeRoundedTemplate search={"Pasta"} numberLimite={1}/>
@@ -76,7 +76,7 @@ export default function Home(){
                     <RecipeRoundedTemplate search={"Smoothies"} numberLimite={1}/>
                     <RecipeRoundedTemplate search={"Breakfast"} numberLimite={1}/>
                 </div>
-             </section>
+             </section> */}
 
             <section className="Join-us">
                 <p className="Delice">Deliciousness to your inbox</p>
