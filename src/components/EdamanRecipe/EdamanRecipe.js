@@ -10,6 +10,9 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 function RecipeRoundedTemplate ({search, numberLimite}){
     const {data, isLoading, error } = useEdamanApi(search);
     const dataHit = data?.hits;
+    const handleSeeAll =(SeeAllData)=>{
+        localStorage.setItem('recipeListData',JSON.stringify(SeeAllData));
+      }
     const renderData = ()=>{
         if(isLoading){
             return <p>Loading data...</p>
@@ -27,7 +30,7 @@ function RecipeRoundedTemplate ({search, numberLimite}){
         return randomIndexes.map((element, idx)=>{
             const randomData = dataHit[element]
             return(
-                    <Link className="rounded-recipe" to='/categories'>
+                    <Link onClick={()=>{handleSeeAll(dataHit)}} className="rounded-recipe" to='/recipeList'>
                         <div className="rounded-recipe-image">
                             <img width={50} height={50} key={idx} alt={search} src={randomData.recipe.image}/>
                         </div>

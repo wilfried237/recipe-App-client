@@ -50,19 +50,29 @@ export default function Navbar() {
   const HandleRedirectToRecipe= (recipe,searchData)=>{
     localStorage.setItem('recipeData',JSON.stringify(recipe.recipe));
     localStorage.setItem('recipeMoreCategory',searchData);
+    setSearchElement("");
+    setRevealSearch(false);
+    setSearchRecipeData([]);
     navigate('/recipeForm');
   }
+  const handleSeeAll =(SeeAllData)=>{
+    localStorage.setItem('recipeListData',JSON.stringify(SeeAllData));
+    setSearchElement("");
+    setRevealSearch(false);
+    setSearchRecipeData([]);
+    navigate('/recipeList');
+  }
+
   useEffect(() => {
     const fetchData = async (search) => {
       setIsSearchReceived(true);
       const { data } = await axios.get(`https://api.edamam.com/search?q=${search}&app_id=5e65853d&app_key=745b5b448240096e69bd7c64fab12072&from=0&to=100`).finally(() => setIsSearchReceived(false));
       const dataHit = data?.hits;
       setSearchRecipeData(dataHit);
-      console.log("searchRecipeData");
-      console.log(dataHit);
     }
     fetchData(searchElement);
   }, [searchElement]);
+
   return (
     <>
       {
@@ -120,6 +130,7 @@ export default function Navbar() {
                         }}
                           className="px-4 py-2"
                           variant="outlined"
+                          onClick={()=>{handleSeeAll(searchRecipeData)}}
                         >See all {searchRecipeData.length} Results </Button>
                       </div>
                     }

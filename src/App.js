@@ -13,6 +13,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import { RecipeFormat } from "./components/Recipes/Recipe";
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert';
+import RecipeList from "./pages/recipeList";
 
 const SnackbarContext = createContext();
 
@@ -82,6 +83,7 @@ export default function App(){
                             <Route path="/reset-password" element={<ResetPassword/>} />
                             <Route path="/Login" element={<LoginPage/>}/>
                             <Route path="/categories" element={<Categories/>}/>
+                            <Route path="/recipeList" element={<RecipeList/>}/>
                         </Routes>
                         <CustomSnackBar/>
                     </Router>
