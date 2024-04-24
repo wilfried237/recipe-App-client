@@ -63,19 +63,24 @@ function RecipeFormat(){
                     const label = randomRecipe?.recipe?.label;
                     const image = randomRecipe?.recipe?.image;
                     return(
-                        <div
+                        <Link
                         className="text-decoration-none"
                         onClick={()=>{
-                            localStorage.setItem('recipeData', RecipeData);  
-                            window.location.reload();     
+                            if(localStorage.getItem('recipeData') && localStorage.getItem('recipeCategory')){
+                                localStorage.removeItem('recipeData');
+                            }
+                            localStorage.setItem('recipeData', RecipeData);     
                         }}
+                        to={{
+                            pathname : `/recipeForm`,
+                            }}
                         key={index}
                         >
                             <div className="d-flex align-items-center gap-3">
                                 <img className="img-side rounded" alt={label} src={image}/>
-                                <a className="m-0 text-default fw-medium">{label}</a>
+                                <p className="m-0 text-default fw-medium">{label}</p>
                             </div>
-                        </div>
+                        </Link>
                     )
                 })}
             </div>
