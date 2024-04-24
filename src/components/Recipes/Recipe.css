@@ -5,6 +5,7 @@
 }
 .text-default:hover{
   color: rgb(255,100,47);
+  cursor: pointer;
 }
 .nutrition-item {
     transform: translateY(20px);
