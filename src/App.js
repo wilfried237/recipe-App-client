@@ -74,7 +74,7 @@ export default function App(){
                         <Navbar/>
                         <Routes>
                             <Route path="/auth" element={<AuthPage/>} />
-                            <Route path="/recipeForm/:search" element={<RecipeFormat/>}/>
+                            <Route path="/recipeForm" element={<RecipeFormat/>}/>
                             <Route path="/" element={<Home/>} />
                             <Route path="/register" element={<Registration/>} />
                             <Route path="/create-recipe" element={<CreateRecipe/>} />

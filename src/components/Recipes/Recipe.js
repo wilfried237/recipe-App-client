@@ -26,7 +26,7 @@ function RecipeFormat(){
     const recipeDataCategory =JSON.parse(localStorage.getItem('recipeCategory'));
     
     const searchElement = useParams();
-    const search = searchElement.search;
+    const search = localStorage.getItem('recipeMoreCategory');
 
     const handleIngredientClick = (ingredient)=>{
         if(selectedItem.includes(ingredient)){
@@ -47,7 +47,6 @@ function RecipeFormat(){
 
     function MoreRecipes({search}){
         const currentElements = [];
-    
         for(let i=0; i<5; i++){
             const RandomNumber = Math.floor(Math.random()*recipeDataCategory.length);
             if(!currentElements.includes(RandomNumber) && RandomNumber!=1){
@@ -74,13 +73,13 @@ function RecipeFormat(){
                             window.location.reload();     
                         }}
                         to={{
-                            pathname : `/recipeForm/${search}`,
+                            pathname : `/recipeForm`,
                             }}
                         key={index}
                         >
                             <div className="d-flex align-items-center gap-3">
                                 <img className="img-side rounded" alt={label} src={image}/>
-                                <p>{label}</p>
+                                <p className="m-0 text-default fw-medium">{label}</p>
                             </div>
                         </Link>
                     )
@@ -90,11 +89,11 @@ function RecipeFormat(){
     }
 
     return(
-        <div className="RecipeForm container p-2">
+        <div className="RecipeForm container p-2 mt-4">
             <h1>{RDO.label}</h1>
             <img className="img-fluid aspect-ratio rounded-4 mt-5 mb-5" style={{ aspectRatio: '16/8', objectFit: "cover", objectPosition: 'center' }} width="100%" src={RDO.image} alt={RDO.label}/>
-            <section className="d-flex flex-wrap flex-row justify-content-between gap-2">
-                <div className="flex-fill mb-4">
+            <section className="row justify-content-between gap-2 mb-5">
+                <div className="col">
                     <div className="recipe-form-brief-info d-flex flex-row gap-0 column-gap-4 mb-5">
                         <div>
                             <p> Prep Time </p>
@@ -147,7 +146,7 @@ function RecipeFormat(){
 
                     </div>
                 </div>
-                <div className="flex-fill">
+                <div className="col">
                     <section className="mb-5 p-4 rounded " style={{backgroundColor: "rgb(249,249,249)", width: "100%" , maxWidth: "auto"}}>
                         <h1>nutrition fact</h1>
 

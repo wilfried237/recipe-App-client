@@ -97,15 +97,12 @@ function RecipeTemplateEdaman ({search, numberLimite}){
                         return(
                                 <Link 
                                 onClick={()=>{
-                                    if(localStorage.getItem('recipeData') && localStorage.getItem('recipeCategory')){
-                                        localStorage.removeItem('recipeData');
-                                        localStorage.removeItem('recipeCategory');
-                                    }
                                     localStorage.setItem('recipeData', RecipeData);  
                                     localStorage.setItem('recipeCategory',recipeDataCategory);
+                                    localStorage.setItem('recipeMoreCategory',search);
                                 }}
                                 to={{
-                                pathname : `/recipeForm/${search}`,
+                                pathname : `/recipeForm`,
                                     }} className="recipe">
                                     <div className="recipe-image">
                                         <img alt={randomData.recipe.label} key={idx} src={randomData.recipe.image}/>

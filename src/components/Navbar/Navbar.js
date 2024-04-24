@@ -18,7 +18,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [pointer, setPointer] = useState(false);
   const [backdropLogin, setBackdropLogin] = useState(false);
-  const { snackBarInfo, setSnackBarInfo } = useSnackbar();
   const [revealSearch, setRevealSearch] = useState(false);
   const [searchElement, setSearchElement] = useState("");
   const [searchRecipeData, setSearchRecipeData] = useState([]);
@@ -48,6 +47,11 @@ export default function Navbar() {
   const handleOnchangeSearch = (event) => {
     setSearchElement(event.target.value);
   }
+  const HandleRedirectToRecipe= (recipe,searchData)=>{
+    localStorage.setItem('recipeData',JSON.stringify(recipe.recipe));
+    localStorage.setItem('recipeMoreCategory',searchData);
+    navigate('/recipeForm');
+  }
   useEffect(() => {
     const fetchData = async (search) => {
       setIsSearchReceived(true);
@@ -64,7 +68,7 @@ export default function Navbar() {
       {
         revealSearch ?
           <div className="container py-3" >
-            {/* <TextField fullWidth label="Search" id="fullWidth" /> */}
+            {/* search Part */}
             <Input
               id="standard-adornment-weight"
               endAdornment={<CloseIcon sx={{ cursor: 'pointer' }} onClick={handleRevealSearchClose} on fontSize="large" position="end" />}
@@ -95,7 +99,7 @@ export default function Navbar() {
                           className="d-flex flex-column gap-1 justify-content-center">
                           <div className="d-flex gap-2 align-items-center loaded-image-recipe">
                             <img alt={index+element} className="rounded" width={80} height={80} key={index} src={element.recipe.image} />
-                            <p className="fw-medium" key={index}>{element.recipe.label}</p>
+                            <p onClick={()=>{HandleRedirectToRecipe(element,searchElement)}} className="fw-medium" key={index}>{element.recipe.label}</p>
                           </div>
                           <Divider className="mb-1" variant="middle" />
                         </div>
@@ -134,7 +138,7 @@ export default function Navbar() {
                   <ul >
                     <li><Link to='/' > Home </Link></li>
                     <li><Link to='/about-us'> About us </Link></li>
-                    <li><Link>Blogs</Link></li>
+                    <li><Link >Blogs</Link></li>
                     {cookies.access_token &&
                       <>
                         <li><Link to='/create-recipe'> Create Recipe </Link></li>
@@ -167,7 +171,7 @@ export default function Navbar() {
                           onClose={() => { handleCloseLoginBackDrope() }}
                           keepMounted
                         >
-                          <LoginPage snackBarInfo={snackBarInfo} setSnackBarInfo={setSnackBarInfo} />
+                          <LoginPage backdropLogin={backdropLogin} setBackdropLogin={setBackdropLogin}/>
 
                         </Dialog>
                       </div>

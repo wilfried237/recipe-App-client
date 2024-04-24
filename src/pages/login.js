@@ -10,14 +10,16 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import Registration from "./registration";
+import Dialog from '@mui/material/Dialog';
+import { useSnackbar } from "../App";
 
-
- export default function LoginPage({ snackBarInfo, setSnackBarInfo }){
-
+ export default function LoginPage({setBackdropLogin,backdropLogin}){
+    const { snackBarInfo, setSnackBarInfo } = useSnackbar();
     const [token,setToken] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
+    const [backdropRegistration, setBackdropRegistration]=  useState(false);
     const [cookies, setCookies] = useCookies(["access_token","access_ID"]);
 
     const schema = yup.object().shape({
@@ -55,6 +57,12 @@ import FacebookIcon from '@mui/icons-material/Facebook';
             setLoading(false);
         }
     }
+
+    function handleOpenRgtnBackDrope(){
+        setBackdropRegistration(true);
+        setBackdropLogin(false);
+    }
+
     return(
         <div className="d-flex justify-content-center align-items-center ">
             
@@ -89,7 +97,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
                         <a style={{color:"#FF642F",textDecoration:"none"}} onClick={()=>{navigate('/reset-password')}} href='#' > Forget Password </a>
                     </div>
 
-                    <Button  variant="conatined" style={{backgroundColor:"#FF642F",color:"white"}} type="submit" className="py-2" disabled={loading}>
+                    <Button  variant="contained" style={{backgroundColor:"#FF642F",color:"white"}} type="submit" className="py-2" disabled={loading}>
                         {loading ? 
                         <div className="d-flex flex-row justify-content-center">
                             <CircularProgress color="inherit"/>
@@ -97,14 +105,22 @@ import FacebookIcon from '@mui/icons-material/Facebook';
                     </Button>
                     
                     <p className="text-center">Or login with</p>
-                    
-                    <div className="d-flex justify-content-between ">
-                        <Button startIcon={<FacebookIcon/>} style={{backgroundColor:"#F1F1F1" , color:"blue"}} className="px-4 py-1"  variant="contained">Facebook</Button>
-                        <Button style={{backgroundColor:"#F1F1F1", color:"black"}}  className="px-4 py-1"  variant="contained">Google</Button>
+                    <div class="d-flex justify-content-evenly align-items-center">
+                            <img width="48" height="48" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/>
+                            <text class="fw-medium fs-5">Or</text>
+                            <img width="48" height="48" src="https://img.icons8.com/color/48/facebook-new.png" alt="facebook-new"/>
                     </div>
-                    <div className="d-flex mt-2 gap-2">
+                    <div className="d-flex mt-2 gap-2 justify-content-center">
                         <p>Don't have an Account ?</p>
-                        <Link to={"/register"}>Register</Link>
+                        <a onClick={()=>{handleOpenRgtnBackDrope();}}>Register</a>
+                        <Dialog
+                          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1, backdropFilter: backdropRegistration && " blur(10px)" }}
+                          open={backdropRegistration}
+                          onClose={() => { setBackdropRegistration(false) }}
+                          keepMounted
+                        >
+                            <Registration backdropRegistration={backdropRegistration} setBackdropRegistration={setBackdropRegistration} backdropLogin={backdropLogin} setBackdropLogin={setBackdropLogin}/>
+                        </Dialog>
                     </div>
                     </div>
                 </form>

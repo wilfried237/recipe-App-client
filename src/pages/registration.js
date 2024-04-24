@@ -1,12 +1,12 @@
 import axios from 'axios'
 import {useForm} from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link, useNavigate } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField'
 import * as yup from 'yup';
+import Button from '@mui/material/Button';
 
-export default function Registration(){
-
-    const navigate = useNavigate();
+export default function Registration({setBackdropLogin,backdropLogin,setBackdropRegistration}){
 
     const schema = yup.object().shape({
         username :  yup.string().required().max(11).min(5),
@@ -17,6 +17,12 @@ export default function Registration(){
     const {register, handleSubmit, formState: {errors}, reset} = useForm({
         resolver: yupResolver(schema),
     });
+
+
+    function handleMoveLogin(){
+        setBackdropLogin(true);
+        setBackdropRegistration(false);
+    }
 
     const OnSubmit = async (data)=>{
 
@@ -36,39 +42,74 @@ export default function Registration(){
     }
 
     return(
-        <div className="d-flex justify-content-center align-items-center " style={{position: "fixed", top:"0",left: "0",width: "100%",height: "100vh",backdropFilter:" blur(10px)"}}>
-            <div className='position-relative p-5'>
-                <svg onClick={()=>{navigate("/")}} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="cross_icon bi bi-x-lg position-absolute top-0 end-0" viewBox="0 0 16 16">
-                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-                </svg>
-                <form onSubmit={ handleSubmit(OnSubmit)} style={{}} className=' p-5'>
-                        <p className='fs-1'>Registration Page</p>
-                        <div class="mb-3">
-                            <label  for="UserName" className="form-label">UserName</label>
-                            <input {...register("username")}  type="text" className="form-control" id="UserName" required/>
-                            <p> { errors.username?.message }</p>
+        <Paper elevation={6} >
+                <form style={{width:"420px"}} onSubmit={ handleSubmit(OnSubmit)} className='container'>
+                    <div className="p-5 d-flex flex-column gap-3">
+                        
+                        <div>
+                        <p className="fs-1 fw-medium">REGISTER</p>
+                            <TextField
+                                
+                                id="exampleInput"
+                                label="UserName"
+                                {...register("username")}
+                                fullWidth
+                                sx={{
+                                    borderColor:"#F1F1F1"
+                                }}
+                            />
                         </div>
-                        <div className="mb-3">
-                            <label for="Email" className="form-label"> Email</label>
-                            <input {...register("email")} type="text" className="form-control" id="Email" required/>
+                        <div>
+                            <TextField
+                            
+                            id="exampleInput"
+                            label="email"
+                            {...register("email")}
+                            fullWidth
+                            type="email"
+                            sx={{
+                                borderColor:"#F1F1F1"
+                            }}
+                            />
                             <p> { errors.email?.message} </p>
                         </div>
-                        <div class="mb-3">
-                            <label for="Password" className="form-label">Password</label>
-                            <input {...register("password")} type="password" className="form-control" id="Password" required/>
+                        <div>      
+                            <TextField
+                            
+                            id="exampleInput"
+                            label="password"
+                            {...register("password")}
+                            type='password'
+                            fullWidth
+                            sx={{
+                                borderColor:"#F1F1F1",
+                            }}
+                            />
                             <p> { errors.password?.message } </p>
                         </div>
+                        <div>
+                            <p class="m-0 w-100 text-center">
+                                Register with
+                            </p>
+                            <div class="d-flex justify-content-evenly align-items-center">
+                                <img width="48" height="48" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/>
+                                <text class="fw-medium fs-5">Or</text>
+                                <img width="48" height="48" src="https://img.icons8.com/color/48/facebook-new.png" alt="facebook-new"/>
+                            </div>
+                        </div>
 
-                        <div className='d-flex justify-content-center mt-3'>
-                            <button type="submit" className="btn btn-primary btn-center">Register</button>
+                        <div className='d-flex justify-content-center'>
+                        <Button  variant="contained" style={{backgroundColor:"#FF642F",color:"white"}} type="submit" className="py-2" fullWidth>
+                        Register
+                        </Button>
                         </div>
                         
-                        <div className='d-flex gap-2 mt-2 justify-content-center'>
+                        <div className='d-flex gap-2 justify-content-center'>
                             <p>Already have an account ? </p>
-                            <Link to={"/Login"}>Login</Link>
+                            <a onClick={()=>{handleMoveLogin()}}>Login</a>
                         </div>
+                    </div>
                 </form>
-            </div>
-        </div>  
+        </Paper>  
     )
 }
