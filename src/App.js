@@ -14,6 +14,7 @@ import { RecipeFormat } from "./components/Recipes/Recipe";
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert';
 import RecipeList from "./pages/recipeList";
+import AboutUs from "./pages/about-us/aboutUs";
 
 const SnackbarContext = createContext();
 
@@ -84,6 +85,7 @@ export default function App(){
                             <Route path="/Login" element={<LoginPage/>}/>
                             <Route path="/categories" element={<Categories/>}/>
                             <Route path="/recipeList" element={<RecipeList/>}/>
+                            <Route path="/about-us" element={<AboutUs/>}/>
                         </Routes>
                         <CustomSnackBar/>
                     </Router>

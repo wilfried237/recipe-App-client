@@ -88,7 +88,8 @@ function RecipeFormat(){
     }
 
     return(
-        <div className="RecipeForm container p-2 mt-4">
+        <>
+              <div className="RecipeForm container p-2 mt-4">
             <h1>{RDO.label}</h1>
             <img className="img-fluid aspect-ratio rounded-4 mt-5 mb-5" style={{ aspectRatio: '16/8', objectFit: "cover", objectPosition: 'center' }} width="100%" src={RDO.image} alt={RDO.label}/>
             <section className="row justify-content-between gap-2 mb-5">
@@ -184,10 +185,11 @@ function RecipeFormat(){
                     </section>
                 </div>
                 
-            </section>
-            
-            <Footer/>
-        </div>
+            </section>       
+        </div>  
+        <Footer/>
+        </>
+
     )
 }
 
