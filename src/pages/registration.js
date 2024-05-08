@@ -5,9 +5,15 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField'
 import * as yup from 'yup';
 import Button from '@mui/material/Button';
-
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
+import { useSnackbar } from '../App';
+import './css/login.css';
+import { useState } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 export default function Registration({setBackdropLogin,backdropLogin,setBackdropRegistration}){
-
+    const { snackBarInfo, setSnackBarInfo } = useSnackbar(); 
+    const [loading , setLoading] = useState(false);
     const schema = yup.object().shape({
         username :  yup.string().required().max(11).min(5),
         email:      yup.string().email().required(),
@@ -23,21 +29,45 @@ export default function Registration({setBackdropLogin,backdropLogin,setBackdrop
         setBackdropLogin(true);
         setBackdropRegistration(false);
     }
-
-    const OnSubmit = async (data)=>{
-
+    
+    const GoogleAuth = async(data)=>{
+        setLoading(true);
         try{
-            const response = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/register`, data);
+            const response = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/register`, {username:data.name,email: data.email,typeRegister:"googleAuth"});
             if(response.data.flag === false){
-                alert(response.data.message);
+                setSnackBarInfo({ ...snackBarInfo, message: response.data.message, open: true, severity: "error" });
             }
             else{
-                alert(response.data.message);
-                reset();
+                setSnackBarInfo({ ...snackBarInfo, message: response.data.message, open: true, severity: "success" });
+                handleMoveLogin();
             }
         }
         catch(err){
-            console.error(err)
+            setSnackBarInfo({ ...snackBarInfo, message: err, open: true, severity: "error" });
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+
+    const OnSubmit = async (data)=>{
+        setLoading(true);
+        try{
+            const response = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/register`, {...data, typeRegister:"normal"});
+            if(response.data.flag === false){
+                setSnackBarInfo({ ...snackBarInfo, message: response.data.message, open: true, severity: "error" });
+            }
+            else{
+                await setSnackBarInfo({ ...snackBarInfo, message: response.data.message, open: true, severity: "success" });
+                reset();
+                handleMoveLogin();
+            }
+        }
+        catch(err){
+            setSnackBarInfo({ ...snackBarInfo, message: err, open: true, severity: "error" });
+        }
+        finally{
+            setLoading(false);
         }
     }
 
@@ -91,22 +121,36 @@ export default function Registration({setBackdropLogin,backdropLogin,setBackdrop
                             <p class="m-0 w-100 text-center">
                                 Register with
                             </p>
-                            <div class="d-flex justify-content-evenly align-items-center">
-                                <img width="48" height="48" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/>
-                                <text class="fw-medium fs-5">Or</text>
-                                <img width="48" height="48" src="https://img.icons8.com/color/48/facebook-new.png" alt="facebook-new"/>
+                            <div class="d-flex justify-content-evenly align-items-center mt-1">
+                            {
+                                loading? <CircularProgress size={30} color="inherit"/> : 
+                                <GoogleLogin
+                                onSuccess={async (credentialResponse) => {
+                                    const UserDetails = jwtDecode(credentialResponse.credential);
+                                    await GoogleAuth(UserDetails);
+                                }}
+                                onError={() => {
+                                    setSnackBarInfo({ ...snackBarInfo, message: "Login Failed", open: true, severity: "error" });
+                                }}
+                            />
+                            }
+
                             </div>
                         </div>
 
                         <div className='d-flex justify-content-center'>
                         <Button  variant="contained" style={{backgroundColor:"#FF642F",color:"white"}} type="submit" className="py-2" fullWidth>
-                        Register
+                        {loading? 
+                        <div className="d-flex flex-row justify-content-center">
+                            <CircularProgress color="inherit"/>
+                        </div> 
+                        : "Register"}
                         </Button>
                         </div>
                         
                         <div className='d-flex gap-2 justify-content-center'>
                             <p>Already have an account ? </p>
-                            <a onClick={()=>{handleMoveLogin()}}>Login</a>
+                            <a onClick={()=>{handleMoveLogin()}} className='text-effect'>Login</a>
                         </div>
                     </div>
                 </form>

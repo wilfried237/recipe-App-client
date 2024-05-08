@@ -15,6 +15,7 @@ import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert';
 import RecipeList from "./pages/recipeList";
 import AboutUs from "./pages/about-us/aboutUs";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const SnackbarContext = createContext();
 
@@ -71,6 +72,7 @@ export default function App(){
     return(
         <div>
             <QueryClientProvider client={queryClient}>
+              <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_KEY}>
                 <SnackbarProvider>
                     <Router>
                         <Navbar/>
@@ -90,6 +92,7 @@ export default function App(){
                         <CustomSnackBar/>
                     </Router>
                 </SnackbarProvider>
+              </GoogleOAuthProvider>
             </QueryClientProvider>
         </div>
     );

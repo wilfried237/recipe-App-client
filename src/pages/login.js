@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import axios from 'axios'
 import {useCookies} from 'react-cookie'
 import { Link, useNavigate } from "react-router-dom";
@@ -9,10 +9,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button';
-import FacebookIcon from '@mui/icons-material/Facebook';
 import Registration from "./registration";
 import Dialog from '@mui/material/Dialog';
 import { useSnackbar } from "../App";
+import { jwtDecode } from "jwt-decode";
+import { GoogleLogin } from '@react-oauth/google';
+import './css/login.css';
 
  export default function LoginPage({setBackdropLogin,backdropLogin}){
     const { snackBarInfo, setSnackBarInfo } = useSnackbar();
@@ -31,10 +33,34 @@ import { useSnackbar } from "../App";
         resolver: yupResolver(schema),
     });
 
+    const GoogleAuth = async (data)=>{
+        setLoading(true);
+        try{
+            const userRespond = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/login`,{typeRegister:"googleAuth", email:data.email});
+            if(userRespond.data.flag === false){
+                setSnackBarInfo({ ...snackBarInfo, message: userRespond.data.message, open: true, severity: "error" });
+            }
+            else{
+                setSnackBarInfo({ ...snackBarInfo, message: userRespond.data.message, open: true, severity: "success" });
+                setToken(userRespond.data.token);
+                window.localStorage.setItem('User', userRespond.data.userID)
+                setCookies("access_token", userRespond.data.token)
+                setCookies("access_ID",userRespond.data.userID)
+                navigate("/");
+            }
+        }
+        catch(err){
+            setSnackBarInfo({ ...snackBarInfo, message: err, open: true, severity: "error" });
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+
     const OnSubmit = async (data)=>{
         setLoading(true);
         try{
-          const userRespond = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/login`,{username:data.username, password:data.password});
+          const userRespond = await axios.post(`${process.env.REACT_APP_API_PATH}/auth/login`,{username:data.username, password:data.password,typeRegister:"normal"});
           
           if(userRespond.data.flag === false){
             setSnackBarInfo({ ...snackBarInfo, message: userRespond.data.message, open: true, severity: "error" });
@@ -51,7 +77,7 @@ import { useSnackbar } from "../App";
 
         }
         catch(err){
-            console.error(err);
+            setSnackBarInfo({ ...snackBarInfo, message: err, open: true, severity: "error" });
         }
         finally{
             setLoading(false);
@@ -106,13 +132,26 @@ import { useSnackbar } from "../App";
                     
                     <p className="text-center">Or login with</p>
                     <div class="d-flex justify-content-evenly align-items-center">
-                            <img width="48" height="48" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/>
-                            <text class="fw-medium fs-5">Or</text>
-                            <img width="48" height="48" src="https://img.icons8.com/color/48/facebook-new.png" alt="facebook-new"/>
+                        {
+                            loading? 
+                            <div className="d-flex flex-row justify-content-center">
+                                <CircularProgress size={30} color="inherit"/>
+                            </div>
+                            :
+                            <GoogleLogin
+                                onSuccess={async (credentialResponse) => {
+                                    const userDetails = jwtDecode(credentialResponse.credential);
+                                    await GoogleAuth(userDetails);
+                                }}
+                                onError={() => {
+                                    setSnackBarInfo({ ...snackBarInfo, message: "Login Failed", open: true, severity: "error" });
+                                }}
+                            />  
+                        }
                     </div>
                     <div className="d-flex mt-2 gap-2 justify-content-center">
                         <p>Don't have an Account ?</p>
-                        <a onClick={()=>{handleOpenRgtnBackDrope();}}>Register</a>
+                        <a onClick={()=>{handleOpenRgtnBackDrope();}} className="text-effect">Register</a>
                         <Dialog
                           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1, backdropFilter: backdropRegistration && " blur(10px)" }}
                           open={backdropRegistration}

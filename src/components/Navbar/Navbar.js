@@ -12,6 +12,7 @@ import axios from 'axios';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Skeleton from '@mui/material/Skeleton';
+import { googleLogout } from '@react-oauth/google';
 
 export default function Navbar() {
   const [cookies, setCookies] = useCookies(["access_token"])
@@ -26,6 +27,8 @@ export default function Navbar() {
   function logOut() {
     setCookies("access_token", "");
     setCookies("access_ID", "");
+    localStorage.clear();
+    googleLogout();
     navigate('/');
   }
   const revealNavbar = () => {
@@ -158,7 +161,6 @@ export default function Navbar() {
                         <button className="btn btn-danger" onClick={logOut}>Logout</button>
                       </>
                     }
-
                   </ul>
                 </div>
                 <div className="navbar-container-left">

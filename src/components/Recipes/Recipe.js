@@ -148,7 +148,7 @@ function RecipeFormat(){
                 </div>
                 <div className="col">
                     <section className="mb-5 p-4 rounded " style={{backgroundColor: "rgb(249,249,249)", width: "100%" , maxWidth: "auto"}}>
-                        <h1>nutrition fact</h1>
+                        <h1>Nutrition Fact</h1>
 
                         <div style={{width:"100%"}} className="nutrition-container d-flex flex-column gap-0 row-gap-1 justify-content-center" >
                             {

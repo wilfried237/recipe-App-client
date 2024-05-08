@@ -31,7 +31,12 @@
     margin-top: 1rem;
     color: black;
 }
-
+.recipe-label{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
 .rounded-recipe:hover h5 {
     color: rgb(255,100,47);
 }

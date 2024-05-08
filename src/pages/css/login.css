@@ -1,0 +1,15 @@
+.hover-effect{
+
+    transition: all ease 0.5s;
+}
+.hover-effect:hover{
+    padding: 5px;
+    cursor: pointer;
+}
+
+.text-effect{
+    color:#FF642F;
+}
+.text-effect:hover{
+    cursor: pointer;
+}
