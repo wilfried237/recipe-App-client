@@ -5,6 +5,10 @@ nav{
    
 }
 
+.profile-picture{
+    cursor: pointer;
+}
+
 .navbar-container{
     display: flex;
     flex-direction: row;

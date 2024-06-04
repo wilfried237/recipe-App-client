@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState } from "react";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import AuthPage from "./pages/auth";
 import Home from "./pages/home";
-import CreateRecipe from "./pages/createRecipe";
 import SaveRecipe from "./pages/savedRecipe";
 import Navbar from "./components/Navbar/Navbar";
 import ResetPassword from "./pages/resetpassword";
@@ -16,6 +15,7 @@ import MuiAlert from '@mui/material/Alert';
 import RecipeList from "./pages/recipeList";
 import AboutUs from "./pages/about-us/aboutUs";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Profile from "./pages/profile";
 
 const SnackbarContext = createContext();
 
@@ -81,13 +81,13 @@ export default function App(){
                             <Route path="/recipeForm" element={<RecipeFormat/>}/>
                             <Route path="/" element={<Home/>} />
                             <Route path="/register" element={<Registration/>} />
-                            <Route path="/create-recipe" element={<CreateRecipe/>} />
                             <Route path="/saved-recipes" element={<SaveRecipe/>} />
                             <Route path="/reset-password" element={<ResetPassword/>} />
                             <Route path="/Login" element={<LoginPage/>}/>
                             <Route path="/categories" element={<Categories/>}/>
                             <Route path="/recipeList" element={<RecipeList/>}/>
                             <Route path="/about-us" element={<AboutUs/>}/>
+                            <Route path="/Profile" element={<Profile/>}/>
                         </Routes>
                         <CustomSnackBar/>
                     </Router>
