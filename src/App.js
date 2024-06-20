@@ -16,6 +16,8 @@ import RecipeList from "./pages/recipeList";
 import AboutUs from "./pages/about-us/aboutUs";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Profile from "./pages/profile";
+import BlogPage from "./pages/blog";
+import F404 from "./components/404/F404";
 
 const SnackbarContext = createContext();
 
@@ -78,16 +80,17 @@ export default function App(){
                         <Navbar/>
                         <Routes>
                             <Route path="/auth" element={<AuthPage/>} />
-                            <Route path="/recipeForm" element={<RecipeFormat/>}/>
+                            <Route path="/recipeForm/:id" element={<RecipeFormat/>}/>
                             <Route path="/" element={<Home/>} />
                             <Route path="/register" element={<Registration/>} />
                             <Route path="/saved-recipes" element={<SaveRecipe/>} />
                             <Route path="/reset-password" element={<ResetPassword/>} />
                             <Route path="/Login" element={<LoginPage/>}/>
-                            <Route path="/categories" element={<Categories/>}/>
-                            <Route path="/recipeList" element={<RecipeList/>}/>
+                            <Route path="/recipeList/:id" element={<RecipeList/>}/>
                             <Route path="/about-us" element={<AboutUs/>}/>
                             <Route path="/Profile" element={<Profile/>}/>
+                            <Route path="/Blog" element={<BlogPage/>}/>
+                            <Route path="*" element={<F404/>} />
                         </Routes>
                         <CustomSnackBar/>
                     </Router>

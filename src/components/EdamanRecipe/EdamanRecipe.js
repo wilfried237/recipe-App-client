@@ -1,129 +1,146 @@
 import { useEdamanApi } from "../../hooks/useEdaman";
 import "./EdamanRecipe.css";
 import { Link } from "react-router-dom";
-import Skeleton from '@mui/material/Skeleton';
-import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
-import { styled } from '@mui/material/styles';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import axios from "axios";
+import { useState, useEffect, useMemo } from "react";
+import RecipeCard from "../recipeCard/recipeCard";
+import LoadingPage from "../IsLoading/Loading";
+import { message } from "antd";
+import { useCookies } from "react-cookie";
+import RecipeCardV from "../recipeCard/recipeCardV";
 
-function RecipeRoundedTemplate ({search, numberLimite}){
-    const {data, isLoading, error } = useEdamanApi(search);
-    const dataHit = data?.hits;
-    const handleSeeAll =(SeeAllData)=>{
-        localStorage.setItem('recipeListData',JSON.stringify(SeeAllData));
+const useGetUserProfileInfo = (userID, userToken, counter) => {
+  const [dataUser, setDataUser] = useState(null);
+  const [isLoadingU, setIsLoadingU] = useState(true);
+
+  useEffect(() => {
+    const fetchUserProfileInfo = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_PATH}/auth/getUserInfo/${userID}`,
+          { headers: { Authorization: userToken } }
+        );
+        setDataUser(response.data.UserInfo);
+        setIsLoadingU(false);
+      } catch (error) {
+        console.error("Error fetching user profile info:", error);
+        setIsLoadingU(false);
       }
-    const renderData = ()=>{
-        if(isLoading){
-            return <p>Loading data...</p>
-        }
-        if(error){
-            return <p>Error occurred 404</p>
-        }
-        const randomIndexes = [];
-        while(randomIndexes.length < numberLimite){
-            const random = Math.floor(Math.random()*dataHit.length);
-            if(!randomIndexes.includes(random)){
-                randomIndexes.push(random);
-            }
-        }
-        return randomIndexes.map((element, idx)=>{
-            const randomData = dataHit[element]
-            return(
-                    <Link onClick={()=>{handleSeeAll(dataHit)}} className="rounded-recipe" to='/recipeList'>
-                        <div className="rounded-recipe-image">
-                            <img width={50} height={50} key={idx} alt={search} src={randomData.recipe.image}/>
-                        </div>
-                        <h5 className="rounded-recipe-text">{search}</h5>
-                    </Link>
-            )
-        });
+    };
+
+    fetchUserProfileInfo();
+  }, [userID, userToken, counter]);
+
+  return { dataUser, isLoadingU };
+};
+
+function RecipeRoundedTemplate({ search, numberLimite }) {
+  const { data, isLoading, error } = useEdamanApi(search);
+  const dataHit = data?.hits;
+  const handleSeeAll = (SeeAllData) => {
+    localStorage.setItem("recipeListData", JSON.stringify(SeeAllData));
+  };
+
+  const renderData = () => {
+    if (isLoading) {
+      return <p>Loading data...</p>;
     }
-    return(
-        renderData()
-    )
+    if (error) {
+      return <p>Error occurred 404</p>;
+    }
+    const randomIndexes = [];
+    while (randomIndexes.length < numberLimite) {
+      const random = Math.floor(Math.random() * dataHit.length);
+      if (!randomIndexes.includes(random)) {
+        randomIndexes.push(random);
+      }
+    }
+    return randomIndexes.map((element, idx) => {
+      const randomData = dataHit[element];
+      return (
+        <Link
+          onClick={() => {
+            handleSeeAll(dataHit);
+          }}
+          className="rounded-recipe"
+          to={`/recipeList/${search}`}
+        >
+          <div className="rounded-recipe-image">
+            <img
+              width={50}
+              height={50}
+              key={idx}
+              alt={search}
+              src={randomData.recipe.image}
+            />
+          </div>
+          <h5 className="rounded-recipe-text">{search}</h5>
+        </Link>
+      );
+    });
+  };
+  return renderData();
 }
 
-const StyledRating = styled(Rating)({
-    '& .MuiRating-iconFilled': {
-        color: '#FF642F',
-      },
-      '& .MuiRating-iconHover': {
-        color: '#FF8359',
-      },
-})
 
-function RecipeTemplateEdaman ({search, numberLimite}){
-    const {data, isLoading, error} = useEdamanApi(search);
-    const dataHit = data?.hits;
-        if(isLoading){
-            return(
-                <div className="d-flex flex-row justify-content-center flex-wrap gap-5">  
-                    <div>
-                        <Skeleton className="recipe-image-loading rounded" variant="rectangular" animation="wave" height={250}></Skeleton>
-                        <Skeleton className="mt-2" variant="text" sx={{ fontSize: '1rem' }} />
-                    </div>
-                    <div>
-                        <Skeleton className="recipe-image-loading rounded" variant="rectangular" animation="wave" height={250}></Skeleton>
-                        <Skeleton className="mt-2" variant="text" sx={{ fontSize: '1rem' }} />
-                    </div>
-                    <div>
-                        <Skeleton className="recipe-image-loading rounded" variant="rectangular" animation="wave" height={250}></Skeleton>
-                        <Skeleton className="mt-2" variant="text" sx={{ fontSize: '1rem' }} />
-                    </div>                  
-                </div>
-            ) 
+export default function RecipeTemplateEdaman({ search, numberLimite }) {
+  const { data, isLoading, error } = useEdamanApi(search);
+  const dataHit = data?.hits;
+  const [cookies, setCookies] = useCookies(['access_token', 'access_ID']);
+  const userID = cookies.access_ID;
+  const userToken = cookies.access_token;
+  const [counter, setCounter] = useState(0);
+  const { dataUser, isLoadingU } = useGetUserProfileInfo(userID, userToken, counter);
+  const [randomIndexes, setRandomIndexes] = useState([]);
+  const [savedRecipesState, setSavedRecipesState] = useState([]);
+
+  useEffect(() => {
+    if (dataUser?.savedRecipe) {
+      setSavedRecipesState(dataUser.savedRecipe);
+    }
+  }, [dataUser?.savedRecipe]);
+
+  useEffect(() => {
+    if (dataHit?.length) {
+      const tempRandomIndexes = [];
+      for (let i = 0; i < numberLimite; i++) {
+        const randomIndex = Math.floor(Math.random() * dataHit.length);
+        if (!tempRandomIndexes.includes(randomIndex)) {
+          tempRandomIndexes.push(randomIndex);
         }
+      }
+      setRandomIndexes(tempRandomIndexes);
+    }
+  }, [dataHit, numberLimite]);
 
-        if(error){
-            return <p>Error occurred 404</p>
-        }
+  if (isLoading || isLoadingU) {
+    return <LoadingPage />;
+  }
 
-        const randomIndexes = [];
-         for(let i=0;i<numberLimite;i++){
+  if (error) {
+    return <p>Error occurred 404</p>;
+  }
 
-            const randomIndex= Math.floor(Math.random()*dataHit.length);
-            if(!randomIndexes.includes(randomIndex)){
-                randomIndexes.push(randomIndex);
-            }
-        }
-
-
- 
-    return(
-        <>
-            {
-                       randomIndexes.map((element,idx)=>{
-                        const randomData = dataHit[element];
-                        const RecipeData = JSON.stringify(randomData.recipe);
-                        const recipeDataCategory = JSON.stringify(dataHit);
-                        return(
-                                <Link 
-                                onClick={()=>{
-                                    localStorage.setItem('recipeData', RecipeData);  
-                                    localStorage.setItem('recipeCategory',recipeDataCategory);
-                                    localStorage.setItem('recipeMoreCategory',search);
-                                }}
-                                to={{
-                                pathname : `/recipeForm`,
-                                    }} className="recipe">
-                                    <div className="recipe-image">
-                                        <img alt={randomData.recipe.label} key={idx} src={randomData.recipe.image}/>
-                                    </div>
-                                    <StyledRating
-                                        name="customized-color"
-                                        defaultValue={5}
-                                        icon={<StarIcon fontSize="inherit" />}
-                                        emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                                        className="mt-2"
-                                    />
-                                    <h5 className="recipe-label" key={idx}>{randomData.recipe.label}</h5>  
-                                </Link>
-                        )
-                    })
-            }
-        </>
-    )
+  return (
+    <>
+      {randomIndexes.map((element) => {
+        const randomData = dataHit[element];
+        console.log(element)
+        return (
+          <RecipeCardV
+            key={element.label}
+            recipe={randomData?.recipe}
+            initialIsSaved={savedRecipesState.some((r) => r.label === randomData?.recipe.label)}
+            userID={userID}
+            userToken={userToken}
+            counter={counter}
+            setCounter={setCounter}
+            savedRecipes={savedRecipesState}
+          />
+        );
+      })}
+    </>
+  );
 }
 
-export {RecipeTemplateEdaman, RecipeRoundedTemplate}
+export { RecipeTemplateEdaman, RecipeRoundedTemplate, useGetUserProfileInfo };

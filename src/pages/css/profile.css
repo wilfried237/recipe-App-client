@@ -1,0 +1,49 @@
+.saveBtn{
+    text-align: center;
+    border: none;
+    font-weight: 500;
+    color: white;
+    background-color: rgb(255,100,47);
+}
+
+.saveBtn:hover{
+    background-color: rgb(255, 125, 72);
+}
+
+.saveBtn:active{
+    background-color: rgb(246, 153, 117) !important; 
+}
+
+.d-inline{
+    display: inline;
+}
+
+.image-profile{
+    height: 126px;
+    width: 126px;
+    border-radius: 100%;
+    object-position: center;
+    object-fit: cover;
+}
+.change-text {
+    color: rgb(255, 100, 47);
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-transition: text-decoration 1s ease-in; /* Safari and Chrome */
+    -moz-transition: text-decoration 1s ease-in; /* Firefox */
+    -o-transition: text-decoration 1s ease-in; /* Opera */
+    transition: text-decoration 1s ease-in;
+    font-weight: 500;
+    border: none;
+    background-color: transparent;
+}
+  
+
+.change-text:hover{
+    text-decoration: underline;
+}
+
+.pointer-auto{
+    cursor: pointer;
+
+}

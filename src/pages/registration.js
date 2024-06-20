@@ -17,10 +17,22 @@ export default function Registration({setBackdropLogin,backdropLogin,setBackdrop
     const { snackBarInfo, setSnackBarInfo } = useSnackbar(); 
     const [loading , setLoading] = useState(false);
     const schema = yup.object().shape({
-        username :  yup.string().required().max(11).min(5),
-        email:      yup.string().email().required(),
-        password:   yup.string().max(32).min(8).required(),
-        });
+        username: yup
+          .string()
+          .required('Username is required')
+          .max(11, 'Username must be at most 11 characters long')
+          .min(5, 'Username must be at least 5 characters long'),
+        email: yup
+          .string()
+          .email('Invalid email address')
+          .required('Email is required'),
+        password: yup
+          .string()
+          .max(32, 'Password must be at most 32 characters long')
+          .min(8, 'Password must be at least 8 characters long')
+          .required('Password is required'),
+      });
+      
 
     const {register, handleSubmit, formState: {errors}, reset} = useForm({
         resolver: yupResolver(schema),
@@ -125,7 +137,7 @@ export default function Registration({setBackdropLogin,backdropLogin,setBackdrop
                             </p>
                             <div class="d-flex justify-content-evenly align-items-center mt-1">
                             {
-                                loading? <CircularProgress size={30} color="inherit"/> : 
+                                loading? <CircularProgress size={30} color="inherit"/ >: 
                                 <GoogleLogin
                                 onSuccess={async (credentialResponse) => {
                                     const UserDetails = jwtDecode(credentialResponse.credential);
