@@ -139,7 +139,7 @@ export default function LoginPage({ setBackdropLogin, backdropLogin }) {
     <div className="d-flex justify-content-center align-items-center ">
       <Paper style={{ width: "420px" }} elevation={6}>
         <form className="container" onSubmit={handleSubmit(OnSubmit)}>
-          <div className="p-5 d-flex flex-column gap-3">
+          <div className="p-4 d-flex flex-column gap-3">
             <div>
               <p className="fs-1 fw-medium">LOGIN</p>
               <TextField
