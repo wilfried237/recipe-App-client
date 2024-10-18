@@ -90,7 +90,7 @@ export default function RecipeTemplateEdaman({ search, numberLimite }) {
   const userID = cookies.access_ID;
   const userToken = cookies.access_token;
   const [counter, setCounter] = useState(0);
-  const { dataUser, isLoadingU } = useGetUserProfileInfo(userID, userToken, counter);
+  const { dataUser } = useGetUserProfileInfo(userID, userToken, counter);
   const [randomIndexes, setRandomIndexes] = useState([]);
   const [savedRecipesState, setSavedRecipesState] = useState([]);
 
@@ -113,7 +113,7 @@ export default function RecipeTemplateEdaman({ search, numberLimite }) {
     }
   }, [dataHit, numberLimite]);
 
-  if (isLoading || isLoadingU) {
+  if (isLoading ) {
     return <LoadingPage />;
   }
 
