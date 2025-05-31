@@ -1,57 +1,69 @@
 import Footer from "../components/footer/Footer";
-import { Link } from "react-router-dom";
-import '../components/EdamanRecipe/EdamanRecipe.css'
-import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
-import { styled } from '@mui/material/styles';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import "../components/EdamanRecipe/EdamanRecipe.css";
+import {useParams} from 'react-router-dom'
+import { useEdamanApi } from "../hooks/useEdaman";
+import LoadingPage from "../components/IsLoading/Loading";
+import RecipeCard from "../components/recipeCard/recipeCard";
+import { useCookies } from "react-cookie";
+import { useState, useEffect, useMemo} from "react";
+import { useGetUserProfileInfo } from "../components/EdamanRecipe/EdamanRecipe";
+import RecipeCardV from "../components/recipeCard/recipeCardV";
 
-const StyledRating = styled(Rating)({
-    '& .MuiRating-iconFilled': {
-        color: '#FF642F',
-      },
-      '& .MuiRating-iconHover': {
-        color: '#FF8359',
-      },
-})
+export default function RecipeList() {
+  const { id } = useParams();
+  const { data, isLoading, error } = useEdamanApi(id);
+  const [cookies, setCookies] = useCookies(['access_token', 'access_ID']);
+  const userID = cookies.access_ID;
+  const userToken = cookies.access_token;
+  const [counter, setCounter] = useState(0);
+  const { dataUser, isLoadingU } = useGetUserProfileInfo(userID, userToken, counter);
+  const [savedRecipesState, setSavedRecipesState] = useState([]);
 
-export default function RecipeList(){
-    const recipeListData = JSON.parse(localStorage.getItem("recipeListData"));
-    return(
-        <>
-        <section className="container" >
-            <div className="recipe-grid">
-                {recipeListData.map((element,idx)=>{
+  useEffect(() => {
+    if (dataUser?.savedRecipe) {
+      setSavedRecipesState(dataUser.savedRecipe);
+    }
+  }, [dataUser?.savedRecipe]);
 
-                    return(
-                        <>
-                        <Link 
-                                onClick={()=>{
-                                    localStorage.setItem('recipeData', JSON.stringify(element.recipe));  
-                                    localStorage.setItem('recipeCategory',JSON.stringify(recipeListData));
-                                }}
-                                to={{
-                                pathname : `/recipeForm`,
-                                    }} className="recipe">
-                                    <div className="recipe-image">
-                                        <img alt={element.recipe.label} key={idx} src={element.recipe.image}/>
-                                    </div>
-                                    <StyledRating
-                                        name="customized-color"
-                                        defaultValue={5}
-                                        icon={<StarIcon fontSize="inherit" />}
-                                        emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                                        className="mt-2"
-                                    />
-                                    <h5 className="recipe-label" key={idx}>{element.recipe.label}</h5>  
-                        </Link>
-                        </>
-                    );
-                })}
-            </div>
-        </section>
-        <Footer/>
-        </>
-        
-    );
+  const isSavedRecipe = (recipe) => {
+    return savedRecipesState.some((r) => r.label === recipe.label);
+  };
+
+  if (isLoading || isLoadingU) {
+    return <LoadingPage />;
+  }
+
+  if (error) {
+    return <p>Error occurred 404</p>;
+  }
+
+  return (
+    <>
+      <section className="container">
+        <div className="flex my-5">
+          <p className="m-0 fs-1 text-start fw-medium">LIST RECIPE</p>
+          <hr />
+        </div>
+
+        <div className="recipe-grid">
+          {data?.hits.map((element) => {
+            return (
+              <RecipeCardV
+                key={element.label}
+                recipe={element?.recipe}
+                initialIsSaved={isSavedRecipe(element?.recipe)}
+                userID={userID}
+                userToken={userToken}
+                counter={counter}
+                setCounter={setCounter}
+                savedRecipes={savedRecipesState}
+              />
+            );
+          })}
+        </div>
+      </section>
+      <Footer />
+    </>
+  );
 }
+

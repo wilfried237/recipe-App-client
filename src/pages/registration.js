@@ -17,10 +17,22 @@ export default function Registration({setBackdropLogin,backdropLogin,setBackdrop
     const { snackBarInfo, setSnackBarInfo } = useSnackbar(); 
     const [loading , setLoading] = useState(false);
     const schema = yup.object().shape({
-        username :  yup.string().required().max(11).min(5),
-        email:      yup.string().email().required(),
-        password:   yup.string().max(32).min(8).required(),
-        });
+        username: yup
+          .string()
+          .required('Username is required')
+          .max(11, 'Username must be at most 11 characters long')
+          .min(5, 'Username must be at least 5 characters long'),
+        email: yup
+          .string()
+          .email('Invalid email address')
+          .required('Email is required'),
+        password: yup
+          .string()
+          .max(32, 'Password must be at most 32 characters long')
+          .min(8, 'Password must be at least 8 characters long')
+          .required('Password is required'),
+      });
+      
 
     const {register, handleSubmit, formState: {errors}, reset} = useForm({
         resolver: yupResolver(schema),
@@ -74,88 +86,89 @@ export default function Registration({setBackdropLogin,backdropLogin,setBackdrop
     }
 
     return(
-        <Paper elevation={6} >
-                <form style={{width:"420px"}} onSubmit={ handleSubmit(OnSubmit)} className='container'>
-                    <div className="p-5 d-flex flex-column gap-3">
-                        
-                        <div>
-                        <p className="fs-1 fw-medium">REGISTER</p>
-                            <TextField
+        <div className="d-flex justify-content-center align-items-center">      
+            <Paper style={{ width: "420px" }}  elevation={6} >
+                    <form onSubmit={ handleSubmit(OnSubmit)}>
+                        <div className="p-5 d-flex flex-column gap-3">
+                            
+                            <div>
+                            <p className="fs-1 fw-medium">REGISTER</p>
+                                <TextField
+                                    
+                                    id="exampleInput"
+                                    label="UserName"
+                                    {...register("username")}
+                                    fullWidth
+                                    sx={{
+                                        borderColor:"#F1F1F1"
+                                    }}
+                                />
+                                {errors.username && <p> { errors.username?.message} </p>}
+                            </div>
+                            <div>
+                                <TextField
                                 
                                 id="exampleInput"
-                                label="UserName"
-                                {...register("username")}
+                                label="email"
+                                {...register("email")}
                                 fullWidth
+                                
                                 sx={{
                                     borderColor:"#F1F1F1"
                                 }}
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                            
-                            id="exampleInput"
-                            label="email"
-                            {...register("email")}
-                            fullWidth
-                            type="email"
-                            sx={{
-                                borderColor:"#F1F1F1"
-                            }}
-                            />
-                            <p> { errors.email?.message} </p>
-                        </div>
-                        <div>      
-                            <TextField
-                            
-                            id="exampleInput"
-                            label="password"
-                            {...register("password")}
-                            type='password'
-                            fullWidth
-                            sx={{
-                                borderColor:"#F1F1F1",
-                            }}
-                            />
-                            <p> { errors.password?.message } </p>
-                        </div>
-                        <div>
-                            <p class="m-0 w-100 text-center">
-                                Register with
-                            </p>
-                            <div class="d-flex justify-content-evenly align-items-center mt-1">
-                            {
-                                loading? <CircularProgress size={30} color="inherit"/> : 
-                                <GoogleLogin
-                                onSuccess={async (credentialResponse) => {
-                                    const UserDetails = jwtDecode(credentialResponse.credential);
-                                    await GoogleAuth(UserDetails);
+                                />
+                                {errors.email && <p> { errors.email?.message} </p>}
+                            </div>
+                            <div>      
+                                <TextField
+                                
+                                id="exampleInput"
+                                label="password"
+                                {...register("password")}
+                                type='password'
+                                fullWidth
+                                sx={{
+                                    borderColor:"#F1F1F1",
                                 }}
-                                onError={() => {
-                                    setSnackBarInfo({ ...snackBarInfo, message: "Login Failed", open: true, severity: "error" });
-                                }}
-                            />
-                            }
+                                />
+                                {errors.password && <p> { errors.password?.message } </p>}
+                            </div>
+                            <div>
+                                <p class="m-0 w-100 text-center">
+                                    Register with
+                                </p>
+                                <div class="d-flex justify-content-evenly align-items-center mt-1">
+                                {
+                                    loading? <CircularProgress size={30} color="inherit"/ >: 
+                                    <GoogleLogin
+                                    onSuccess={async (credentialResponse) => {
+                                        const UserDetails = jwtDecode(credentialResponse.credential);
+                                        await GoogleAuth(UserDetails);
+                                    }}
+                                    onError={() => {
+                                        setSnackBarInfo({ ...snackBarInfo, message: "Login Failed", open: true, severity: "error" });
+                                    }}
+                                />
+                                }
 
+                                </div>
+                            </div>
+                            <div className='d-flex justify-content-center'>
+                            <Button  variant="contained" style={{backgroundColor:"#FF642F",color:"white"}} type="submit" className="py-2" fullWidth>
+                            {loading? 
+                            <div className="d-flex flex-row justify-content-center">
+                                <CircularProgress color="inherit"/>
+                            </div> 
+                            : "Register"}
+                            </Button>
+                            </div>                        
+                            <div className='d-flex gap-2 justify-content-center'>
+                                <p>Already have an account ? </p>
+                                <a onClick={()=>{handleMoveLogin()}} className='text-effect'>Login</a>
                             </div>
                         </div>
-
-                        <div className='d-flex justify-content-center'>
-                        <Button  variant="contained" style={{backgroundColor:"#FF642F",color:"white"}} type="submit" className="py-2" fullWidth>
-                        {loading? 
-                        <div className="d-flex flex-row justify-content-center">
-                            <CircularProgress color="inherit"/>
-                        </div> 
-                        : "Register"}
-                        </Button>
-                        </div>
-                        
-                        <div className='d-flex gap-2 justify-content-center'>
-                            <p>Already have an account ? </p>
-                            <a onClick={()=>{handleMoveLogin()}} className='text-effect'>Login</a>
-                        </div>
-                    </div>
-                </form>
-        </Paper>  
+                    </form>
+            </Paper> 
+        </div>
     )
 }
