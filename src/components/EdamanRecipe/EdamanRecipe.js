@@ -125,7 +125,6 @@ export default function RecipeTemplateEdaman({ search, numberLimite }) {
     <>
       {randomIndexes.map((element) => {
         const randomData = dataHit[element];
-        console.log(element)
         return (
           <RecipeCardV
             key={element.label}

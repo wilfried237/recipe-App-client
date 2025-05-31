@@ -46,6 +46,32 @@ export default function LoginPage({ setBackdropLogin, backdropLogin }) {
     resolver: yupResolver(schema),
   });
 
+  // Function to handle successful login
+  const handleSuccessfulLogin = (userResponse) => {
+    console.log(userResponse)
+    setToken(userResponse.data.token);
+    window.localStorage.setItem("User", userResponse.data.userID);
+    setCookies("access_token", userResponse.data.token);
+    setCookies("access_ID", userResponse.data.userID);
+    
+    // Clean up modal states before navigation
+    setBackdropLogin(false);
+    setBackdropRegistration(false);
+    
+    // Show success message
+    setSnackBarInfo({
+      ...snackBarInfo,
+      message: userResponse.data.message,
+      open: true,
+      severity: "success",
+    });
+    
+    // Navigate after a small delay to ensure state cleanup
+    setTimeout(() => {
+      navigate("/", { replace: true });
+    }, 100);
+  };
+
   const GoogleAuth = async (data) => {
     setLoading(true);
     try {
@@ -53,6 +79,7 @@ export default function LoginPage({ setBackdropLogin, backdropLogin }) {
         `${process.env.REACT_APP_API_PATH}/auth/login`,
         { typeRegister: "googleAuth", email: data.email }
       );
+      
       if (userRespond.data.flag === false) {
         setSnackBarInfo({
           ...snackBarInfo,
@@ -62,22 +89,13 @@ export default function LoginPage({ setBackdropLogin, backdropLogin }) {
         });
       } else {
         console.log(userRespond.data);
-        setSnackBarInfo({
-          ...snackBarInfo,
-          message: userRespond.data.message,
-          open: true,
-          severity: "success",
-        });
-        setToken(userRespond.data.token);
-        window.localStorage.setItem("User", userRespond.data.userID);
-        setCookies("access_token", userRespond.data.token);
-        setCookies("access_ID", userRespond.data.userInfo._id);
-        navigate("/");
+        handleSuccessfulLogin(userRespond);
       }
     } catch (err) {
+      console.error("Google Auth Error:", err);
       setSnackBarInfo({
         ...snackBarInfo,
-        message: err,
+        message: err.response?.data?.message || err.message || "Login failed",
         open: true,
         severity: "error",
       });
@@ -106,22 +124,13 @@ export default function LoginPage({ setBackdropLogin, backdropLogin }) {
           severity: "error",
         });
       } else {
-        setSnackBarInfo({
-          ...snackBarInfo,
-          message: userRespond.data.message,
-          open: true,
-          severity: "success",
-        });
-        setToken(userRespond.data.token);
-        window.localStorage.setItem("User", userRespond.data.userID);
-        setCookies("access_token", userRespond.data.token);
-        setCookies("access_ID", userRespond.data.userInfo._id);
-        navigate("/");
+        handleSuccessfulLogin(userRespond);
       }
     } catch (err) {
+      console.error("Login Error:", err);
       setSnackBarInfo({
         ...snackBarInfo,
-        message: err,
+        message: err.response?.data?.message || err.message || "Login failed",
         open: true,
         severity: "error",
       });
@@ -185,14 +194,13 @@ export default function LoginPage({ setBackdropLogin, backdropLogin }) {
 
             <div className="d-flex justify-content-end">
               <a
-                style={{ color: "#FF642F", textDecoration: "none" }}
+                style={{ color: "#FF642F", textDecoration: "none", cursor: "pointer" }}
                 onClick={() => {
+                  setBackdropLogin(false);
                   navigate("/reset-password");
                 }}
-                href="#"
               >
-                {" "}
-                Forget Password{" "}
+                Forget Password
               </a>
             </div>
 
@@ -213,7 +221,7 @@ export default function LoginPage({ setBackdropLogin, backdropLogin }) {
             </Button>
 
             <p className="text-center">Or login with</p>
-            <div class="d-flex justify-content-evenly align-items-center">
+            <div className="d-flex justify-content-evenly align-items-center">
               {loading ? (
                 <div className="d-flex flex-row justify-content-center">
                   <CircularProgress size={30} color="inherit" />
@@ -244,6 +252,7 @@ export default function LoginPage({ setBackdropLogin, backdropLogin }) {
                   handleOpenRgtnBackDrope();
                 }}
                 className="text-effect"
+                style={{ cursor: "pointer" }}
               >
                 Register
               </a>
