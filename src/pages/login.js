@@ -48,11 +48,10 @@ export default function LoginPage({ setBackdropLogin, backdropLogin }) {
 
   // Function to handle successful login
   const handleSuccessfulLogin = (userResponse) => {
-    console.log(userResponse)
     setToken(userResponse.data.token);
     window.localStorage.setItem("User", userResponse.data.userID);
     setCookies("access_token", userResponse.data.token);
-    setCookies("access_ID", userResponse.data.userID);
+    setCookies("access_ID", userResponse.data.userInfo._id);
     
     // Clean up modal states before navigation
     setBackdropLogin(false);
